@@ -1,9 +1,5 @@
 @use './assets/styles/base/mixins' as *;
 
-.renderTest {
-  height: 100vh;
-}
-
 .pretendardBold {
   @include pretendard-bold;
 }
