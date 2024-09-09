@@ -1,0 +1,17 @@
+@mixin flex($display: flex, $justifyContent: center, $alignItems: center) {
+  display: $display;
+  justify-content: $justifyContent;
+  align-items: $alignItems;
+}
+
+@mixin pretendard-bold {
+  font-family: "Pretendard Bold", sans-serif;
+}
+
+@mixin pretendard-medium {
+  font-family: "Pretendard Medium", sans-serif;
+}
+
+@mixin pretendard-regular {
+  font-family: "Pretendard Regular", sans-serif;
+}
