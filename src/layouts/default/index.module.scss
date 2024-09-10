@@ -1,7 +1,13 @@
-.commonLayout {
+.commonLayoutWrapper {
   // hsPyo: 무신사 style 스펙 참고하여 작성
   max-width: 600px;
   min-width: 320px;
   min-height: 100%;
+  height: 100%;
   margin: 0 auto;
+
+  .mainWrapper {
+    width: 100%;
+    height: 100%;
+  }
 }

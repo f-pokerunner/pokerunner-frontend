@@ -12,8 +12,8 @@ export default function Default() {
   const isIntroPage = location.pathname === '/intro';
 
   return (
-    <div className={cx('commonLayout')}>
-      <main>
+    <div className={cx('commonLayoutWrapper')}>
+      <main className={cx('mainWrapper')}>
         <Outlet />
       </main>
       {!isIntroPage && <Nav />}
