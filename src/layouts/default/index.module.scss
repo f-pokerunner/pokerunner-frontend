@@ -1,10 +1,7 @@
-.wrapper {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.mainWrapper {
-  flex: 1;
+.commonLayout {
+  // hsPyo: 무신사 style 스펙 참고하여 작성
+  max-width: 600px;
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0 auto;
 }
