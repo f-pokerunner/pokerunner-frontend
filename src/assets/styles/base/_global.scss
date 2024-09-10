@@ -3,5 +3,11 @@ body {
   font-size: $font-size-base;
   color: $color-dark;
   box-sizing: border-box;
-  min-height: 100vh; // hs: https://www.freecodecamp.org/news/html-page-width-height/ 참고하여 작성
+  min-height: 100vh;
+  height: 100vh; // hs: https://www.freecodecamp.org/news/html-page-width-height/ 참고하여 작성
+
+  #root {
+    height: 100%;
+    min-height: 100%;
+  }
 }
