@@ -1,17 +1,14 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import styles from './index.module.scss';
+import Nav from '../../components/nav';
 
 export default function Default() {
   return (
-    <>
-      <h2>Default</h2>
-      <Outlet />
-
-      {/* 개발전 임시 nav */}
-      <div style={{ marginTop: 10, display: 'flex', gap: 5 }}>
-        <Link to="/">home</Link>
-        <Link to="/ranking-map">map</Link>
-        <Link to="/mypage">mypage</Link>
-      </div>
-    </>
+    <div className={styles.wrapper}>
+      <main className={styles.mainWrapper}>
+        <Outlet />
+      </main>
+      <Nav />
+    </div>
   );
 }

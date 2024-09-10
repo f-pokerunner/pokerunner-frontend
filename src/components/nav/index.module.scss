@@ -1,0 +1,35 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10;
+  margin-bottom: 28px;
+  padding: 0 2.375em;
+  width: 375px;
+}
+
+.item {
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+
+  &.selected {
+    .shadow {
+      background-color: #c4c4c4;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease-out;
+      opacity: 0.6;
+    }
+  }
+}
+
+.shadow {
+  background-color: #d9d9d9;
+  opacity: 0.4;
+  width: 51px;
+  height: 8px;
+  border-radius: 50%;
+}
