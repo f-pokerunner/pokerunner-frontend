@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .wrapper {
   height: 100vh;
   display: flex;
@@ -7,4 +8,22 @@
 
 .mainWrapper {
   flex: 1;
+=======
+.commonLayoutWrapper {
+  // hsPyo: 무신사 style 스펙 참고하여 작성
+  max-width: 600px;
+  min-width: 320px;
+  min-height: 100%;
+  height: 100%;
+  margin: 0 auto;
+  .mainWrapper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .navWrapper {
+    position: relative;
+    top: -103.5px; // hsPyo: nav 높이값 적용. nav가 화면을 넘치는 상황 대응
+  }
+>>>>>>> develop
 }
