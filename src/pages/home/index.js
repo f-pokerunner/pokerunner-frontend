@@ -1,8 +1,9 @@
 import classNames from 'classnames/bind';
 
+import { ReactComponent as PokeBall } from '../../assets/icons/PokeBall.svg';
 import pokemon1 from '../../assets/gifs/이상해씨gif.gif';
 import styles from './index.module.scss';
-import InfoCard from '../../components/InfoCard';
+import InfoCard from '../../components/InfoCard/index.jsx';
 
 const cx = classNames.bind(styles);
 
@@ -42,7 +43,15 @@ export default function Home() {
             </div>
             <span className={cx('currentExp')}>270/300</span>
           </div>
-          <div></div>
+          <div className={cx('statusWrapper')}>
+            <div className={cx('statusBox')}>
+              <PokeBall style={{ zIndex: '2' }} />
+              <span>러닝 종료</span>
+            </div>
+            <div className={cx('run')}>
+              <span>7.5Km/h</span>
+            </div>
+          </div>
         </div>
       </InfoCard>
     </div>
