@@ -50,19 +50,23 @@
 }
 
 .pokeCard {
-  @include cardStyle();
-  width: 60px;
-  height: 60px;
+  @include cardStyle(90%, 90%);
+  width: 90%;
+  height: auto;
+  aspect-ratio: 1; /* 카드의 가로와 세로 비율을 1:1로 설정 */
 
   img {
-    width: 40px;
+    width: 60%;
+    height: auto;
+    object-fit: contain;
   }
 }
 
 .recordWrapper {
   @include cardStyle(97%, 90%);
-  width: 300px;
+  min-width: 300px;
   min-height: 100px;
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

@@ -18,7 +18,7 @@ const pokes = [
   {
     id: 3,
     poke: '라이츄',
-    src: 'https://www.shutterstock.com/image-vector/red-white-pokemon-ball-circle-260nw-2468816893.jpg',
+    src: 'https://pngimg.com/uploads/pokemon/pokemon_PNG154.png',
   },
   {
     id: 4,
@@ -43,9 +43,9 @@ export default function Mypage() {
 
   return (
     <div className={cx('area')}>
-      {showPopup && (
+      {/* {showPopup && (
         <Popup message={message} onClose={() => setShowPopup(false)} />
-      )}
+      )} */}
 
       <InfoCard backgroundColor="#B13500">
         <MyPokeList pokes={pokes} />
