@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import InfoCard from '../../components/InfoCard';
+import InfoCard from '../../components/InfoCard/index.jsx';
 import styles from './index.module.scss';
 import Popup from '../../components/popup';
 import { useExperiencePoll } from '../../\bhooks/useExperiencePoll';
