@@ -43,11 +43,11 @@ export default function Mypage() {
 
   return (
     <div className={cx('area')}>
-      {/* {showPopup && (
+      {showPopup && (
         <Popup message={message} onClose={() => setShowPopup(false)} />
-      )} */}
+      )}
 
-      <InfoCard backgroundColor="#B13500">
+      <InfoCard backgroundColor="#B13500" style={{ width: '90%' }}>
         <MyPokeList pokes={pokes} />
       </InfoCard>
       <div className={cx('recordWrapper')}>

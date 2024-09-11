@@ -1,6 +1,8 @@
+@use '../../assets/styles/base/mixins' as *;
+
 .area {
   position: relative;
-  width: 90%;
+  width: 100%;
   height: auto;
 }
 
@@ -21,8 +23,9 @@
   .title {
     color: #dfefd9;
     font-weight: bold;
-    font-size: 0.8rem;
+    font-size: 1rem;
     text-shadow: 1.7px 1.7px 0 rgba(0, 0, 0, 0.8);
+    @include pretendard-bold;
   }
 }
 
