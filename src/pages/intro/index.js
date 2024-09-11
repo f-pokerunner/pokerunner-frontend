@@ -16,7 +16,9 @@ export default function Intro() {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
 
   /**
-   * TODO: 중복 닉네임 경고 문구 UI 추가 필요
+   * TODO:
+   * 1. 중복 닉네임 경고 문구 UI 추가 필요
+   * 2. 해당 컴포넌트를 Login 페이지로 이동 필요
    */
   return (
     <div className={cx('introContainer')}>
