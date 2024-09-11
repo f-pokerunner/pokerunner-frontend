@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 
 import pokemon1 from '../../assets/gifs/이상해씨gif.gif';
 import styles from './index.module.scss';
+import InfoCard from '../../components/InfoCard';
 
 const cx = classNames.bind(styles);
 
@@ -23,6 +24,38 @@ export default function Home() {
       <div className={cx('pokemonGifWrapper')}>
         <img className={cx('pokemonGif')} src={pokemon1} alt="포켓몬" />
       </div>
+
+      <InfoCard
+        backgroundColor="#446934"
+        title={'상태'}
+        style={{ marginTop: '35px', fontSize: '1rem' }}
+      >
+        <div className={cx('infoWrapper')}>
+          <div className={cx('infoBox')}>
+            <div className={cx('info')}>
+              <span>이상해씨</span>
+              <span>Lv. 34</span>
+            </div>
+            <div className={cx('progressWrapper')}>
+              <span>exp</span>
+              <ProgressBar currentExp={250} maxExp={300} />
+            </div>
+            <span className={cx('currentExp')}>270/300</span>
+          </div>
+          <div></div>
+        </div>
+      </InfoCard>
+    </div>
+  );
+}
+
+function ProgressBar({ currentExp, maxExp }) {
+  const cx = classNames.bind(styles);
+  const percentage = (currentExp / maxExp) * 100;
+
+  return (
+    <div className={cx('progressBar')}>
+      <div className={cx('fill')} style={{ width: `${percentage}%` }} />
     </div>
   );
 }
