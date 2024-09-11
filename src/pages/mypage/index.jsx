@@ -1,6 +1,8 @@
 import classNames from 'classnames/bind';
 import InfoCard from '../../components/InfoCard';
 import styles from './index.module.scss';
+import Popup from '../../components/popup';
+import { useExperiencePoll } from '../../\bhooks/useExperiencePoll';
 
 const pokes = [
   {
@@ -37,9 +39,14 @@ const pokes = [
 
 export default function Mypage() {
   const cx = classNames.bind(styles);
+  const { showPopup, setShowPopup, message } = useExperiencePoll();
 
   return (
     <div className={cx('area')}>
+      {showPopup && (
+        <Popup message={message} onClose={() => setShowPopup(false)} />
+      )}
+
       <InfoCard backgroundColor="#B13500">
         <MyPokeList pokes={pokes} />
       </InfoCard>
