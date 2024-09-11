@@ -12,7 +12,9 @@ export default function Default() {
       <main className={cx('mainWrapper')}>
         <Outlet />
       </main>
-      <Nav />
+      <div className={cx('navWrapper')}>
+        <Nav />
+      </div>
     </div>
   );
 }
