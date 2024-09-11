@@ -1,6 +1,5 @@
 .area {
   position: relative;
-  width: 100%;
 }
 
 .titleBox {
@@ -10,9 +9,13 @@
   background-color: #b13500;
   border-radius: 3px 3px 0 0;
   border: 3px solid #dad7d7;
-  border-bottom: none;
   width: fit-content;
+  border-bottom: none;
   padding: 0.6em 2em 0.1em 2em;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   .title {
     color: #dfefd9;
