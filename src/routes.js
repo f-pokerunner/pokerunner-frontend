@@ -8,6 +8,7 @@ import Home from './pages/home';
 import RankingMap from './pages/ranking-map';
 import Login from './pages/login';
 import Mypage from './pages/mypage';
+import Intro from './pages/intro/index.js';
 import NotFound from './pages/not-found';
 
 const router = createBrowserRouter([
@@ -19,7 +20,8 @@ const router = createBrowserRouter([
       {
         element: <Default />, // Layout with Header and Footer
         children: [
-          { index: true, element: <Home /> },
+          { path: 'intro', element: <Intro /> },
+          { path: 'home', element: <Home /> },
           { path: 'ranking-map', element: <RankingMap /> },
           { path: 'mypage', element: <Mypage /> },
         ],

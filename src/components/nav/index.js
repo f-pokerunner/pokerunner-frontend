@@ -11,7 +11,7 @@ export default function Nav() {
   return (
     <div className={styles.wrapper}>
       <NavLink
-        to="/"
+        to="/home"
         className={({ isActive }) => cx('item', { selected: isActive })}
       >
         <PokeBall />
