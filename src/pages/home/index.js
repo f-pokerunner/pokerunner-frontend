@@ -4,10 +4,17 @@ import { ReactComponent as PokeBall } from '../../assets/icons/PokeBall.svg';
 import pokemon1 from '../../assets/gifs/이상해씨gif.gif';
 import styles from './index.module.scss';
 import InfoCard from '../../components/InfoCard/index.jsx';
+import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
 export default function Home() {
+  const [isRunning, setIsRunning] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsRunning(!isRunning);
+  };
+
   return (
     <div className={cx('homeContainer')}>
       {/* 상단 안내 문구 */}
@@ -44,10 +51,15 @@ export default function Home() {
             <span className={cx('currentExp')}>270/300</span>
           </div>
           <div className={cx('statusWrapper')}>
-            <div className={cx('statusBox')}>
+            <button
+              className={cx('statusBox', { running: !isRunning })}
+              onClick={handleButtonClick}
+            >
               <PokeBall style={{ zIndex: '2' }} />
-              <span>러닝 종료</span>
-            </div>
+              <span className={cx('statusText')}>
+                {isRunning ? '러닝 종료' : '러닝 시작'}
+              </span>
+            </button>
             <div className={cx('run')}>
               <span>7.5Km/h</span>
             </div>
