@@ -1,0 +1,10 @@
+.pokemon {
+  width: 100%;
+  object-fit: contain;
+  aspect-ratio: 1;
+}
+
+// 피카츄 사이즈가 다른 포켓몬보다 작은 이슈 대응
+.isPikachu {
+  transform: scale(1.3);
+}
