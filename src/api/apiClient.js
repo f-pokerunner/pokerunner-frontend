@@ -2,8 +2,7 @@ import axios from 'axios';
 
 // Axios 인스턴스 생성
 const apiClient = axios.create({
-  // baseURL: 'http://133.186.215.243:8080',
-  baseURL: '',
+  baseURL: process.env.REACT_APP_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -42,6 +41,21 @@ export const signupUser = async (uuid, nickname, address, pokemonName) => {
       nickname,
       address,
       pokemonName,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+};
+
+// 러닝 시작
+export const runningStart = async (userId, lat, lon) => {
+  try {
+    const response = await apiClient.post('/start-running', {
+      userId,
+      lat,
+      lon,
     });
     return response.data;
   } catch (error) {
