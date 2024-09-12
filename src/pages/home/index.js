@@ -1,42 +1,96 @@
+import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames/bind';
+
+import { postRunningStart, postRunningEnd } from '../../api/service.js';
 
 import { ReactComponent as PokeBall } from '../../assets/icons/PokeBall.svg';
 import pokemon1 from '../../assets/gifs/이상해씨gif.gif';
-import styles from './index.module.scss';
+import map from '../../assets/icons/icon_map.png';
+import speechBalloon from '../../assets/icons/icon_speech_balloon.png';
 import InfoCard from '../../components/InfoCard/index.jsx';
-import { useState } from 'react';
+import styles from './index.module.scss';
 
 const cx = classNames.bind(styles);
 
 export default function Home() {
   const [isRunning, setIsRunning] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    level: 1,
+    exp: 289,
+    notRunTime: 358,
+    nickName: 'heesu',
+    pokemonName: '꼬부기',
+    imageUrl: pokemon1,
+  });
+  const userId = 123123;
 
-  const handleButtonClick = () => {
-    setIsRunning(!isRunning);
+  const setCurrentPosition = async (position) => {
+    const {
+      coords: { latitude, longitude },
+    } = position;
+
+    postRunningStart(userId, latitude, longitude);
   };
+
+  const handleButtonClick = async () => {
+    setIsRunning(!isRunning);
+
+    if (isRunning) {
+      /**
+       * hsPyo 여기하고있었음
+       */
+      const resonse = await postRunningEnd(userId);
+    } else {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(setCurrentPosition, null, {
+          enableHighAccuracy: false,
+          timeout: 15000,
+          maximumAge: 0,
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (window.pokeRunnerInavi) {
+      // var map = new window.pokeRunnerInavi.maps.Map({
+      //   center: [127.110749, 37.402158],
+      //   container: 'div_map',
+      //   zoom: 13,
+      // });
+    }
+  }, []);
 
   return (
     <div className={cx('homeContainer')}>
       {/* 상단 안내 문구 */}
-      <div className={cx('noticeBoxWrapper')}>
-        <div className={cx('noticeBox')}>예시문구 입니다.</div>
-        <div className={cx('noticeBox')}>예시문구 입니다.</div>
+      <div className={cx('iconWrapper')}>
+        <div className={cx('icon')}>
+          <img src={map} alt="지도아이콘" />
+        </div>
+        <div className={cx('icon')}>
+          <img src={speechBalloon} alt="말풍선아이콘" />
+        </div>
       </div>
 
-      {/* 말풍선 */}
-      <div className={cx('speechBubbleWrapper')}>
-        <div className={cx('speechBubble')}>말풍선 테스트 입니다</div>
-      </div>
+      <div className={cx('main')}>
+        {/* 말풍선 */}
+        <div className={cx('speechBubbleWrapper')}>
+          <div className={cx('speechBubble')}>
+            {isRunning ? '달리는중...' : '예시문구 입니다.'}
+          </div>
+        </div>
 
-      {/* 포켓몬 */}
-      <div className={cx('pokemonGifWrapper')}>
-        <img className={cx('pokemonGif')} src={pokemon1} alt="포켓몬" />
+        {/* 포켓몬 */}
+        <div className={cx('pokemonGifWrapper')}>
+          <img className={cx('pokemonGif')} src={pokemon1} alt="포켓몬" />
+        </div>
       </div>
 
       <InfoCard
         backgroundColor="#446934"
         title={'상태'}
-        style={{ marginTop: '35px', fontSize: '1rem' }}
+        style={{ fontSize: '1rem' }}
       >
         <div className={cx('infoWrapper')}>
           <div className={cx('infoBox')}>

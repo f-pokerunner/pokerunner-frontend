@@ -1,8 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
+  getLocationList,
   checkUserExists,
   signupUser,
   checkUserNicknameExist,
+  runningStart,
+  runningEnd,
 } from './apiClient';
 
 /**  로컬 스토리지에서 기기 고유 ID 가져오기 */
@@ -19,6 +22,17 @@ const setDeviceId = (deviceId) => {
 /**  userID 로컬 스토리지에 저장 */
 const setUserID = (userId) => {
   localStorage.setItem('userId', userId);
+};
+
+/** 지역(구) 리스트 받아오는 함수 */
+export const getSeoulLocationList = async () => {
+  try {
+    const response = await getLocationList();
+    return response;
+  } catch (error) {
+    console.error('Error get seoul location list:', error);
+    return false;
+  }
 };
 
 /** 닉네임 중복 확인 함수 */
@@ -83,4 +97,14 @@ export const handleSignup = async (nickname, address, pokemonName) => {
     console.error('Error during signup:', error);
     return null;
   }
+};
+
+/** 홈화면 > 러닝 시작 */
+export const postRunningStart = async (userId, lat, lon) => {
+  await runningStart(userId, lat, lon);
+};
+
+/** 홈화면 > 러닝 종료 */
+export const postRunningEnd = async (userId) => {
+  await runningEnd(userId);
 };

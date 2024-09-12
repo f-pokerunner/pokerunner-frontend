@@ -18,6 +18,10 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {
+        element: <NonAuth />,
+        children: [{ path: 'login', element: <Login /> }],
+      },
+      {
         element: <Default />, // Layout with Header and Footer
         children: [
           { path: 'intro', element: <Intro /> },
@@ -25,10 +29,6 @@ const router = createBrowserRouter([
           { path: 'ranking-map', element: <RankingMap /> },
           { path: 'mypage', element: <Mypage /> },
         ],
-      },
-      {
-        element: <NonAuth />,
-        children: [{ path: 'login', element: <Login /> }],
       },
     ],
   },
