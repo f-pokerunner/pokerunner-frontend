@@ -16,6 +16,11 @@ const setDeviceId = (deviceId) => {
   localStorage.setItem('deviceId', deviceId);
 };
 
+/**  userID 로컬 스토리지에 저장 */
+const setUserID = (userId) => {
+  localStorage.setItem('userId', userId);
+};
+
 /** 닉네임 중복 확인 함수 */
 export const checkNicknameAvailability = async (nickname) => {
   try {
@@ -40,7 +45,9 @@ export const handleSignup = async (nickname, address, pokemonName) => {
   // 사용자 가입 요청
   try {
     const response = await signupUser(deviceId, nickname, address, pokemonName);
-    console.log(deviceId, nickname, address, pokemonName);
+    if (typeof response === 'number') {
+      setUserID(response);
+    }
     console.log('Signup response:', response);
     if (response === 'User created successfully') {
       console.log('Signup successful:', response);
