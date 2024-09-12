@@ -102,3 +102,10 @@
     @include pretendard-bold;
   }
 }
+.noRecordMessage {
+  text-align: center;
+  color: #666;
+  font-size: 1.2em;
+  @include pretendard-bold;
+  padding: 10px;
+}
