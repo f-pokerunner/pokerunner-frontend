@@ -64,4 +64,17 @@ export const runningStart = async (userId, lat, lon) => {
   }
 };
 
+// 러닝 종료
+export const runningEnd = async (userId) => {
+  try {
+    const response = await apiClient.post('/stop-running', {
+      userId,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+};
+
 export default apiClient;

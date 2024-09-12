@@ -3,6 +3,8 @@ import {
   checkUserExists,
   signupUser,
   checkUserNicknameExist,
+  runningStart,
+  runningEnd,
 } from './apiClient';
 
 /**  로컬 스토리지에서 기기 고유 ID 가져오기 */
@@ -76,4 +78,14 @@ export const handleSignup = async (nickname, address, pokemonName) => {
     console.error('Error during signup:', error);
     return null;
   }
+};
+
+/** 홈화면 > 러닝 시작 */
+export const postRunningStart = async (userId, lat, lon) => {
+  await runningStart(userId, lat, lon);
+};
+
+/** 홈화면 > 러닝 종료 */
+export const postRunningEnd = async (userId) => {
+  await runningEnd(userId);
 };
