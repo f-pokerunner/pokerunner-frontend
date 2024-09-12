@@ -60,7 +60,6 @@ export const signupUser = async (uuid, nickname, address, pokemonName) => {
   }
 };
 
-
 // 러닝 시작
 export const runningStart = async (userId, lat, lon) => {
   try {
