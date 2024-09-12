@@ -8,6 +8,17 @@ const apiClient = axios.create({
   },
 });
 
+// 지역(구) 리스트 받아오기
+export const getLocationList = async () => {
+  try {
+    const response = await apiClient.get('/gu');
+    return response.data;
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+};
+
 // 닉네임 중복 여부 확인 API
 export const checkUserNicknameExist = async (nickname) => {
   try {

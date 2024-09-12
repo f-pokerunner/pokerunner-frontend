@@ -77,12 +77,18 @@
           color: white;
         }
 
-        > input {
-          margin-left: 8px;
+        .input {
           height: 42px;
+          margin-left: 8px;
+          padding-left: 8px;
           flex-grow: 1;
           border-radius: 4px;
           border-width: 0;
+          background-color: white;
+          text-align: start;
+          color: black;
+          font-size: 16px;
+          font-weight: 500;
         }
       }
     }

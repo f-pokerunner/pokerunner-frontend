@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
+  getLocationList,
   checkUserExists,
   signupUser,
   checkUserNicknameExist,
@@ -16,6 +17,17 @@ const getDeviceId = () => {
 /**  기기 고유 ID를 로컬 스토리지에 저장하기 */
 const setDeviceId = (deviceId) => {
   localStorage.setItem('deviceId', deviceId);
+};
+
+/** 지역(구) 리스트 받아오는 함수 */
+export const getSeoulLocationList = async () => {
+  try {
+    const response = await getLocationList();
+    return response;
+  } catch (error) {
+    console.error('Error get seoul location list:', error);
+    return false;
+  }
 };
 
 /** 닉네임 중복 확인 함수 */
