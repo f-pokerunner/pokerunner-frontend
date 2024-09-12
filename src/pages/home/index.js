@@ -23,20 +23,22 @@ export default function Home() {
         <div className={cx('noticeBox')}>예시문구 입니다.</div>
       </div>
 
-      {/* 말풍선 */}
-      <div className={cx('speechBubbleWrapper')}>
-        <div className={cx('speechBubble')}>말풍선 테스트 입니다</div>
-      </div>
+      <div className={cx('main')}>
+        {/* 말풍선 */}
+        <div className={cx('speechBubbleWrapper')}>
+          <div className={cx('speechBubble')}>말풍선 테스트 입니다</div>
+        </div>
 
-      {/* 포켓몬 */}
-      <div className={cx('pokemonGifWrapper')}>
-        <img className={cx('pokemonGif')} src={pokemon1} alt="포켓몬" />
+        {/* 포켓몬 */}
+        <div className={cx('pokemonGifWrapper')}>
+          <img className={cx('pokemonGif')} src={pokemon1} alt="포켓몬" />
+        </div>
       </div>
 
       <InfoCard
         backgroundColor="#446934"
         title={'상태'}
-        style={{ marginTop: '35px', fontSize: '1rem' }}
+        style={{ fontSize: '1rem' }}
       >
         <div className={cx('infoWrapper')}>
           <div className={cx('infoBox')}>

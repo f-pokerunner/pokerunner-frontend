@@ -1,9 +1,10 @@
 @use '../../assets/styles/base/mixins' as *;
 
 .homeContainer {
+  border: 1px solid blue;
   width: 100%;
-  height: 115%;
-  padding: 0 38px;
+  height: 100%;
+  padding: 28px 38px 105.5px 38px; // 10.5.5px은 하단탭 높이
   background: linear-gradient(
     to top,
     rgba(79, 118, 44, 50%) 0%,
@@ -15,10 +16,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
 
   .noticeBoxWrapper {
     width: 100%;
-    margin-top: 80px;
 
     .noticeBox {
       width: 100%;
@@ -33,63 +34,67 @@
     }
   }
 
-  .speechBubbleWrapper {
-    position: relative;
-    align-self: flex-end;
-    min-width: 50%;
-    max-width: 120px;
-    min-height: 100px;
-    border-radius: 50%;
-    background-color: white;
-    margin-top: 48px;
-    box-shadow:
-      4px 4px 12px 8px rgba(95, 171, 181, 0.25),
-      1px 2px 8px 1px rgba(95, 171, 181, 0.25) inset;
+  .main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 
-    &::before {
-      position: absolute;
-      content: '';
-      border-width: 16px;
-      border-style: solid;
-      border-color: rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) white
-        rgba(255, 255, 255, 0);
-      border-right: white;
-      top: 99%;
-      left: 39.5%;
-      transform: rotate(180deg);
-    }
-
-    .speechBubble {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      padding: 28px;
-    }
-  }
-  .pokemonGifWrapper {
-    margin-top: 20px;
-    position: relative; /* position relative 설정 */
-
-    .pokemonGif {
-      width: 138px;
-      height: 138px;
-      margin: 0 auto;
-      object-fit: contain;
-    }
-
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 150%;
-      height: 30px;
-      background: rgba(0, 0, 0, 0.5);
+    .speechBubbleWrapper {
+      position: relative;
+      align-self: flex-end;
+      min-width: 50%;
+      max-width: 120px;
+      min-height: 100px;
       border-radius: 50%;
-      z-index: -1;
+      background-color: white;
+      box-shadow:
+        4px 4px 12px 8px rgba(95, 171, 181, 0.25),
+        1px 2px 8px 1px rgba(95, 171, 181, 0.25) inset;
+
+      &::before {
+        position: absolute;
+        content: '';
+        border-width: 16px;
+        border-style: solid;
+        border-color: rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) white
+          rgba(255, 255, 255, 0);
+        border-right: white;
+        top: 99%;
+        left: 39.5%;
+        transform: rotate(180deg);
+      }
+
+      .speechBubble {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 28px;
+      }
+    }
+    .pokemonGifWrapper {
+      position: relative; /* position relative 설정 */
+
+      .pokemonGif {
+        width: 138px;
+        height: 138px;
+        margin: 0 auto;
+        object-fit: contain;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        height: 30px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        z-index: -1;
+      }
     }
   }
 }
