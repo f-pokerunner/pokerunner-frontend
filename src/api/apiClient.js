@@ -172,4 +172,29 @@ export const getRankerInfo = async (guAddress) => {
   }
 };
 
+// 코멘트 조회
+export const getComment = async (userId) => {
+  try {
+    const response = await apiClient.get(`user/comments?userId=${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user runnings:', error);
+    return null;
+  }
+};
+
+// 코멘트 등록
+export const saveComment = async (userId, comment) => {
+  try {
+    const response = await apiClient.post('/user/comments', {
+      userId,
+      comment,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user runnings:', error);
+    return null;
+  }
+};
+
 export default apiClient;

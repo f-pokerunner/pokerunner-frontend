@@ -9,6 +9,8 @@ import {
   getPokemons,
   getLocation1stList,
   getRankerInfo,
+  getComment,
+  saveComment,
 } from './apiClient';
 
 /**  로컬 스토리지에서 기기 고유 ID 가져오기 */
@@ -133,4 +135,14 @@ export const getLocation1stListAPI = async () => {
 /** 지도 화면 > 특정 지역(구)의 1~3 랭커 정보 불러오기 */
 export const getRankerInfoAPI = async (guAddress) => {
   return await getRankerInfo(guAddress);
+};
+
+/** 코멘트 조회 */
+export const getCommentAPI = async (userId) => {
+  return await getComment(userId);
+};
+
+/** 코멘트 등록 */
+export const saveCommentAPI = async (userId, comment) => {
+  return await saveComment(userId, comment);
 };
