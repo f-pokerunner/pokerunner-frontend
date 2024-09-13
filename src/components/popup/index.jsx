@@ -21,9 +21,10 @@ export default function Popup({
       <div className={cx('popupWrapper')}>
         <div className={cx('popup')}>
           <h2>
-            {messageList.map((item) => {
+            {messageList.map((item, i) => {
               return (
                 <div
+                  key={i}
                   className={cx('content')}
                   onClick={() => onContentClick(item)}
                 >

@@ -5,7 +5,7 @@ $locations: 강동구, 강북구, 강서구, 관악구, 광진구, 구로구, �
 .rankingMapContainer {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 120%;
   padding: 0 38px;
   background: linear-gradient(
     to top,
@@ -88,7 +88,7 @@ $locations: 강동구, 강북구, 강서구, 관악구, 광진구, 구로구, �
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
+  height: 120%;
   padding: 24px 12px;
   background-color: white;
   z-index: 1;
@@ -198,7 +198,7 @@ $locations: 강동구, 강북구, 강서구, 관악구, 광진구, 구로구, �
     height: 100%;
     left: 0;
     top: 0;
-    padding-bottom: 24px;
+    padding-bottom: 120px;
     display: flex;
 
     .completeButton {
