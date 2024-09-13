@@ -44,7 +44,7 @@ $locations: 강동구, 강북구, 강서구, 관악구, 광진구, 구로구, �
     margin-bottom: 120px;
     overflow: scroll;
     scrollbar-width: none;
-
+    padding-bottom: 2em;
     .rankingMapInnerWrapper {
       width: 260%;
       height: 110%;
@@ -62,30 +62,184 @@ $locations: 강동구, 강북구, 강서구, 관악구, 광진구, 구로구, �
         '. 양천구 영등포구 관악구 서초구 강남구 송파구 .'
         '. 구로구 금천구 관악구 서초구 강남구 송파구 .';
 
+      // @each $location in $locations {
+      //   .#{$location} {
+      //     grid-area: $location;
+      //     background-color: rgb(255, 231, 145);
+      //     border-radius: 4px;
+
+      //     &::before {
+      //       position: absolute;
+      //       content: '#{$location}';
+      //       width: fit-content;
+      //       min-width: 60px;
+      //       padding: 4px;
+      //       font-weight: 700;
+      //       opacity: 0.4;
+      //       color: black;
+      //     }
+      //   }
+      // }
+
       @each $location in $locations {
         .#{$location} {
           grid-area: $location;
-          background-color: rgb(255, 231, 145);
-          border-radius: 4px;
-
+          background: #f0f0f0;
+          border: 2px solid #ddd;
+          border-radius: 8px;
+          position: relative;
+          overflow: hidden;
+          transition:
+            transform 0.3s,
+            box-shadow 0.3s;
+          box-shadow:
+            0 6px 12px rgba(0, 0, 0, 0.2),
+            inset 0 1px 2px rgba(0, 0, 0, 0.1);
+          &.sparkle {
+            animation: sparkle 1s infinite; // Apply the sparkle animation
+          }
           &::before {
-            position: absolute;
             content: '#{$location}';
-            width: fit-content;
-            min-width: 60px;
-            padding: 4px;
-            font-weight: 700;
-            opacity: 0.4;
-            color: black;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 4px 8px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            font-weight: bold;
+            color: #333;
+            font-size: 0.8em;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+          }
+
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: radial-gradient(
+              circle,
+              rgba(0, 0, 0, 0.1) 0%,
+              rgba(0, 0, 0, 0) 100%
+            );
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2) inset;
+          }
+
+          &:hover {
+            background: #e0e0e0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px);
+          }
+
+          // Building-like features
+          .roof {
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: #888;
+            border-bottom: 2px solid #555;
+            border-radius: 0 0 8px 8px;
+            transform: skew(-10deg);
+          }
+
+          .window {
+            position: absolute;
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+          }
+
+          .window.one {
+            top: 20px;
+            left: 10px;
+            width: 30px;
+            height: 30px;
+          }
+
+          .window.two {
+            top: 20px;
+            left: 50px;
+            width: 30px;
+            height: 30px;
+          }
+
+          .window.three {
+            top: 60px;
+            left: 10px;
+            width: 30px;
+            height: 30px;
+          }
+
+          .window.four {
+            top: 60px;
+            left: 50px;
+            width: 30px;
+            height: 30px;
           }
         }
       }
 
       .한강 {
         grid-area: 한강;
-        grid-row: 40px;
-        background-color: blue;
-        pointer-events: none;
+        background: linear-gradient(to bottom, #00aaff, #004b6e);
+        color: #fff;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        &:hover {
+          background: #e0e0e0;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+          transform: translateY(-4px);
+        }
+        &::before {
+          content: '한강';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 2em;
+          font-weight: bold;
+          color: #fff;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+          z-index: 1;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 200%;
+          height: 100%;
+          background: repeating-linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.2),
+            rgba(255, 255, 255, 0.2) 20px,
+            rgba(255, 255, 255, 0.4) 40px,
+            rgba(255, 255, 255, 0.2) 60px
+          );
+          animation: wave 6s linear infinite;
+          border-radius: 0 0 10px 10px;
+          z-index: 0;
+        }
+
+        @keyframes wave {
+          0% {
+            background-position: 0 0;
+          }
+          100% {
+            background-position: 0 100%;
+          }
+        }
       }
     }
   }
@@ -265,4 +419,19 @@ $locations: 강동구, 강북구, 강서구, 관악구, 광진구, 구로구, �
       }
     }
   }
+}
+@keyframes sparkle {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 1);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  }
+}
+
+.sparkle {
+  animation: sparkle 1s infinite;
 }

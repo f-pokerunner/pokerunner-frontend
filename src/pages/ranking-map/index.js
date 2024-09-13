@@ -15,6 +15,7 @@ import {
 } from '../../api/service';
 
 import styles from './index.module.scss';
+import { getUserRunnings } from '../../api/apiClient';
 
 const cx = classNames.bind(styles);
 
@@ -23,6 +24,23 @@ export default function RankingMap() {
   const [locationInfoList, setLocationInfoList] = useState([]);
   const [rankerInfoList, setRankerInfoList] = useState([]);
   const [selectedLocationName, setSelectedLocationName] = useState('');
+  const [gu, setLocation] = useState('');
+  const deviceId = localStorage.getItem('deviceId');
+
+  useEffect(() => {
+    if (deviceId) {
+      // 런닝 기록 데이터 가져오기
+      getUserRunnings(deviceId)
+        .then((data) => {
+          if (data) {
+            setLocation(data.map((i) => i.guAddress));
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching user runnings:', error);
+        });
+    }
+  }, [deviceId]);
 
   /**
    * TODO:
@@ -34,7 +52,7 @@ export default function RankingMap() {
 
   const clickLocation = async (guAddress) => {
     const response = await getRankerInfoAPI(guAddress);
-    console.log('Clicked location:', guAddress);
+
     if (response) {
       setRankerInfoList(response);
     }
@@ -92,7 +110,9 @@ export default function RankingMap() {
               return (
                 <div
                   key={index}
-                  className={cx('map', location.locationName)}
+                  className={cx('map', location.locationName, {
+                    sparkle: gu[0] === location.locationName,
+                  })}
                   onClick={() => clickLocation(location.locationName)}
                 >
                   {location.imageUrl && (
