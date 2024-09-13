@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import ItemsCarousel from 'react-items-carousel';
 import classNames from 'classnames/bind';
 
-import pokemon1 from '../../assets/gifs/이상해씨gif.gif';
-import pokemon2 from '../../assets/gifs/피카츄gif.gif';
-import pokemon3 from '../../assets/gifs/파이리gif.gif';
+// hsPyo: 혹시 모를 상황에 대비해 남겨둠
+// import pokemon1 from '../../assets/gifs/이상해씨gif.gif';
+// import pokemon2 from '../../assets/gifs/피카츄gif.gif';
+// import pokemon3 from '../../assets/gifs/파이리gif.gif';
 import { ReactComponent as ArrowLeft } from '../../assets/icons/arrow_left.svg';
 import { ReactComponent as ArrowRight } from '../../assets/icons/arrow_right.svg';
 
@@ -21,15 +22,13 @@ import styles from './index.module.scss';
 
 const cx = classNames.bind(styles);
 
-const pokemonNames = ['이상해씨', '피카츄', '파이리'];
-
 export default function Intro() {
   const navigate = useNavigate();
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [login, setLogin] = useState({
     nickname: '',
     address: '',
-    pokemonName: pokemonNames[activeItemIndex], // 캐러샐 슬라이드를 안했을때 포켓몬 설정이 되어있지 않은 이슈로 인해 수정했습니다.
+    pokemonName: '',
   });
   const [showPopup, setShowPopup] = useState(false);
   const [location, setLocation] = useState([]);
@@ -37,7 +36,11 @@ export default function Intro() {
 
   /** 포켓몬 이름을 설정 */
   const updatePokemonName = (index) => {
-    setLogin((prev) => ({ ...prev, pokemonName: pokemonNames[index] }));
+    const pokemonCount = index % pokemons.length;
+    setLogin((prev) => ({
+      ...prev,
+      pokemonName: pokemons[pokemonCount].pokemonName,
+    }));
   };
 
   /** 캐러셀 아이템 변경 시 포켓몬 이름 업데이트 */
@@ -96,6 +99,7 @@ export default function Intro() {
       const pokemons = await getPokemonsAPI();
       setLocation(response);
       setPokemons(pokemons);
+      setLogin((prev) => ({ ...prev, pokemonName: pokemons[0].pokemonName }));
     };
 
     initLocation();
@@ -133,7 +137,7 @@ export default function Intro() {
             infiniteLoop
           >
             {pokemons.map((pokemon) => (
-              <div>
+              <div key={pokemon.pokemonName}>
                 <img
                   className={cx('pokemonGif')}
                   src={pokemon.imageUrl}
