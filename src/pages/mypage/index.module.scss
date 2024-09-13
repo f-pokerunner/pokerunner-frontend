@@ -122,15 +122,10 @@
     bottom: 0; /* 두꺼운 선의 위치 조정 */
     height: 4px; /* 두꺼운 선의 두께 */
   }
-
-  p {
-    @include pretendard-bold;
-  }
 }
 .noRecordMessage {
   text-align: center;
   color: #666;
   font-size: 1.2em;
-  @include pretendard-bold;
   padding: 10px;
 }

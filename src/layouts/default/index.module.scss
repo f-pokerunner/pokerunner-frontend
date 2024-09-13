@@ -1,3 +1,5 @@
+@use '../../assets/styles/base/mixins' as *;
+
 .commonLayoutWrapper {
   // hsPyo: 무신사 style 스펙 참고하여 작성
   position: relative;
@@ -6,6 +8,8 @@
   min-height: 100%;
   height: 100%;
   margin: 0 auto;
+  @include dosiyagi-medium;
+
   .mainWrapper {
     width: 100%;
     height: 100%;
