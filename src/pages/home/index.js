@@ -39,25 +39,51 @@ export default function Home({ test }) {
     const {
       coords: { latitude, longitude },
     } = position;
+    console.log('Starting run with userId:', userId, 'at', latitude, longitude);
 
-    postRunningStart(userId, latitude, longitude);
+    try {
+      const response = await postRunningStart(userId, latitude, longitude);
+      console.log('postRunningStart response:', response);
+    } catch (error) {
+      console.error('Error starting run:', error);
+    }
+  };
+
+  const { checkExperience } = useExperience();
+
+  const handleAddExperience = (newExperience) => {
+    checkExperience(newExperience);
   };
 
   const handleButtonClick = async () => {
     setIsRunning(!isRunning);
 
-    if (isRunning) {
-      /**
-       * hsPyo 여기하고있었음
-       */
-      const resonse = await postRunningEnd(userId);
-    } else {
+    if (!isRunning) {
+      // 러닝 시작
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(setCurrentPosition, null, {
-          enableHighAccuracy: false,
-          timeout: 15000,
-          maximumAge: 0,
-        });
+        navigator.geolocation.getCurrentPosition(
+          setCurrentPosition,
+          (error) => {
+            console.error('Error getting location:', error);
+          },
+          {
+            enableHighAccuracy: true, // 정확도 높은 위치 정보 요청
+            timeout: 15000,
+            maximumAge: 0,
+          },
+        );
+      } else {
+        console.error('Geolocation is not supported by this browser.');
+      }
+    } else {
+      // 러닝 종료
+      try {
+        const response = await postRunningEnd(userId);
+        if (response && response.experience) {
+          handleAddExperience(response.experience);
+        }
+      } catch (error) {
+        console.error('Error ending run:', error);
       }
     }
   };
@@ -94,12 +120,6 @@ export default function Home({ test }) {
     }
   }, []);
 
-  const { checkExperience } = useExperience();
-
-  const handleAddExperience = () => {
-    const newExperience = 50; // 예시 경험치 값
-    checkExperience(newExperience);
-  };
   const deviceId = localStorage.getItem('deviceId');
 
   useEffect(() => {
