@@ -66,8 +66,10 @@ function MyPokeList({ pokes = [] }) {
     <ul className={cx('cardWrapper')}>
       {pokes.map((poke, i) => {
         return (
-          <li className={cx('pokeCard')} key={i}>
-            <img src={poke.imageUrl} alt="poke" />
+          <li key={i}>
+            <button className={cx('pokeCard')}>
+              <img src={poke.imageUrl} alt="poke" />
+            </button>
           </li>
         );
       })}
