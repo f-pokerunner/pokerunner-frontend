@@ -149,4 +149,15 @@ export const getUserRunnings = async (userUuid) => {
   }
 };
 
+// 지도 화면 > 각 지역(구)의 1순위 정보 불러오기
+export const getLocation1stList = async () => {
+  try {
+    const response = await apiClient.get('/gu/boss-list');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user runnings:', error);
+    return null;
+  }
+};
+
 export default apiClient;

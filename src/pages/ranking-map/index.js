@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 
 import PockemonImage from '../../components/PokemonImage';
@@ -7,6 +7,9 @@ import pokemon1 from '../../assets/gifs/이상해씨gif.gif';
 import pokemon2 from '../../assets/gifs/피카츄gif.gif';
 import pokemon3 from '../../assets/gifs/파이리gif.gif';
 import ranking from '../../assets/icons/ranking.svg';
+
+import { getLocationListAPI, getLocation1stListAPI } from '../../api/service';
+
 import styles from './index.module.scss';
 
 const cx = classNames.bind(styles);
@@ -14,34 +17,21 @@ const cx = classNames.bind(styles);
 export default function RankingMap() {
   const [showModal, setShowModal] = useState(false);
 
-  const location = [
-    '강동구',
-    '강북구',
-    '강서구',
-    '관악구',
-    '광진구',
-    '구로구',
-    '금천구',
-    '노원구',
-    '도봉구',
-    '동대문구',
-    '동작구',
-    '마포구',
-    '서대문구',
-    '서초구',
-    '성동구',
-    '성북구',
-    '송파구',
-    '양천구',
-    '영등포구',
-    '용산구',
-    '은평구',
-    '종로구',
-    '중구',
-    '강남구',
-    '중랑구',
-    '한강',
-  ];
+  /**
+   * locationInfoList 구조
+   *
+   * [{
+   *  locationName: '',
+   *  아래의 값은 랭커가 없으면 없을 수 있음.
+   *  imageUrl: '',
+   *  pokemonName: '',
+   *  runningAddress: '',
+   *  totalDistance: '',
+   *  userId: 0,
+   *  userNickname: '',
+   * }, ...]
+   */
+  const [locationInfoList, setLocationInfoList] = useState([]);
 
   /**
    * TODO:
@@ -59,25 +49,66 @@ export default function RankingMap() {
     setShowModal(false);
   };
 
+  const d = {
+    locationName: '',
+    // 아래의 값은 랭커가 없으면 없을 수 있음.
+    imageUrl: '',
+    pokemonName: '',
+    runningAddress: '',
+    totalDistance: '',
+    userId: 0,
+    userNickname: '',
+  };
+
+  /**
+   * 마운트 시
+   *
+   * 1. 지역(구) 명칭 리스트 요청
+   * 2. 각 지역(구) 1순위 정보 리스트 요청
+   */
+  useEffect(() => {
+    const init = async () => {
+      const locationList = await getLocationListAPI();
+      const location1stList = await getLocation1stListAPI();
+
+      if (location1stList && locationList) {
+        const locationInfoList = locationList.map((locationName) => {
+          const item = location1stList.find(
+            (value) => value.runningAddress === locationName,
+          );
+
+          return { locationName, ...item };
+        });
+
+        locationInfoList.push({ locationName: '한강' });
+
+        setLocationInfoList(locationInfoList);
+      }
+    };
+
+    init();
+  }, []);
+
   return (
     <>
       {/* 지도 화면 */}
       <div className={cx('rankingMapContainer')}>
         <div className={cx('noticeBoxWrapper')}>
-          <div className={cx('noticeBox')}>지도 UI가 아직 미완성 입니다.</div>
+          <div className={cx('noticeBox')}>
+            각 지역(구)의 랭킹 1순위가 보여집니다.
+          </div>
         </div>
         <div className={cx('rankingMapWrapper')}>
           <div className={cx('rankingMapInnerWrapper')}>
-            {Array(47)
-              .fill(null)
-              .map((_, index) => {
-                return (
-                  <div
-                    className={cx('map', location[index])}
-                    onClick={clickLocation}
-                  ></div>
-                );
-              })}
+            {locationInfoList.map((location, index) => {
+              return (
+                <div
+                  key={index}
+                  className={cx('map', location.locationName)}
+                  onClick={clickLocation}
+                ></div>
+              );
+            })}
           </div>
         </div>
       </div>

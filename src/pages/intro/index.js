@@ -13,7 +13,7 @@ import { ReactComponent as ArrowRight } from '../../assets/icons/arrow_right.svg
 import Popup from '../../components/popup';
 
 import {
-  getSeoulLocationList,
+  getLocationListAPI,
   handleSignup,
   getPokemonsAPI,
 } from '../../api/service';
@@ -95,11 +95,14 @@ export default function Intro() {
    */
   useEffect(() => {
     const initLocation = async () => {
-      const response = await getSeoulLocationList();
+      const response = await getLocationListAPI();
       const pokemons = await getPokemonsAPI();
-      setLocation(response);
-      setPokemons(pokemons);
-      setLogin((prev) => ({ ...prev, pokemonName: pokemons[0].pokemonName }));
+
+      if (response && pokemons) {
+        setLocation(response);
+        setPokemons(pokemons);
+        setLogin((prev) => ({ ...prev, pokemonName: pokemons[0].pokemonName }));
+      }
     };
 
     initLocation();

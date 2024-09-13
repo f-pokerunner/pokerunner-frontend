@@ -7,6 +7,7 @@ import {
   runningStart,
   runningEnd,
   getPokemons,
+  getLocation1stList,
 } from './apiClient';
 
 /**  로컬 스토리지에서 기기 고유 ID 가져오기 */
@@ -31,7 +32,7 @@ export const getUserID = (userId) => {
 };
 
 /** 지역(구) 리스트 받아오는 함수 */
-export const getSeoulLocationList = async () => {
+export const getLocationListAPI = async () => {
   try {
     const response = await getLocationList();
     return response;
@@ -121,4 +122,9 @@ export const postRunningStart = async (userId, lat, lon) => {
 /** 홈화면 > 러닝 종료 */
 export const postRunningEnd = async (userId) => {
   await runningEnd(userId);
+};
+
+/** 지도 화면 > 각 지역(구) 1순위 리스트 불러오기 */
+export const getLocation1stListAPI = async () => {
+  return await getLocation1stList();
 };
