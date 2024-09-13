@@ -15,6 +15,9 @@
 
 ## Script
 
+<img width="339" alt="image" src="https://github.com/user-attachments/assets/600dfc87-909a-4bf4-8a18-f36b391045fc">
+
+
 ```
 $ npm run start
 ```
