@@ -11,7 +11,11 @@ import { ReactComponent as ArrowRight } from '../../assets/icons/arrow_right.svg
 
 import Popup from '../../components/popup';
 
-import { getSeoulLocationList, handleSignup } from '../../api/service';
+import {
+  getSeoulLocationList,
+  handleSignup,
+  getPokemonsAPI,
+} from '../../api/service';
 
 import styles from './index.module.scss';
 
@@ -27,8 +31,9 @@ export default function Intro() {
     address: '',
     pokemonName: pokemonNames[activeItemIndex], // 캐러샐 슬라이드를 안했을때 포켓몬 설정이 되어있지 않은 이슈로 인해 수정했습니다.
   });
-  const [location, setLocation] = useState();
-  const [showPopup, setShowPopup] = useState();
+  const [showPopup, setShowPopup] = useState(false);
+  const [location, setLocation] = useState([]);
+  const [pokemons, setPokemons] = useState([]);
 
   /** 포켓몬 이름을 설정 */
   const updatePokemonName = (index) => {
@@ -83,11 +88,14 @@ export default function Intro() {
    * 마운트 시
    *
    * 1. 주소(구) 리스트 요청
+   * 2. 포켓몬 image 리스트 요청
    */
   useEffect(() => {
     const initLocation = async () => {
       const response = await getSeoulLocationList();
+      const pokemons = await getPokemonsAPI();
       setLocation(response);
+      setPokemons(pokemons);
     };
 
     initLocation();
@@ -124,15 +132,15 @@ export default function Intro() {
             chevronWidth={40}
             infiniteLoop
           >
-            <div>
-              <img className={cx('pokemonGif')} src={pokemon1} alt="포켓몬" />
-            </div>
-            <div>
-              <img className={cx('pokemonGif')} src={pokemon2} alt="포켓몬" />
-            </div>
-            <div>
-              <img className={cx('pokemonGif')} src={pokemon3} alt="포켓몬" />
-            </div>
+            {pokemons.map((pokemon) => (
+              <div>
+                <img
+                  className={cx('pokemonGif')}
+                  src={pokemon.imageUrl}
+                  alt={pokemon.pokemonName}
+                />
+              </div>
+            ))}
           </ItemsCarousel>
         </div>
 

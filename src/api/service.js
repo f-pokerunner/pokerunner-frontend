@@ -6,6 +6,7 @@ import {
   checkUserNicknameExist,
   runningStart,
   runningEnd,
+  getPokemons,
 } from './apiClient';
 
 /**  로컬 스토리지에서 기기 고유 ID 가져오기 */
@@ -105,6 +106,11 @@ export const handleSignup = async (nickname, address, pokemonName) => {
     console.error('Error during signup:', error);
     return null;
   }
+};
+
+/** intro 화면 > 기본 포켓몬 모두 불러오기 */
+export const getPokemonsAPI = async () => {
+  return await getPokemons();
 };
 
 /** 홈화면 > 러닝 시작 */

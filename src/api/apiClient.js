@@ -60,6 +60,17 @@ export const signupUser = async (uuid, nickname, address, pokemonName) => {
   }
 };
 
+// 기본 포켓몬 모두 불러오기
+export const getPokemons = async () => {
+  try {
+    const response = await apiClient.get('/pokemon');
+    return response.data;
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+};
+
 // 러닝 시작
 export const runningStart = async (userId, lat, lon) => {
   try {
