@@ -12,6 +12,7 @@ export default function Mypage() {
   const [pokes, setPokes] = useState([]);
   const [runnings, setRunnings] = useState([]);
   const [defaultPoke, setDefaultPoke] = useState('');
+  const [loaded, setLoaded] = useState(true);
 
   const cx = classNames.bind(styles);
   const deviceId = localStorage.getItem('deviceId');
@@ -22,6 +23,7 @@ export default function Mypage() {
         .then((data) => {
           if (data) {
             setPokes(data);
+            setLoaded(false);
           }
         })
         .catch((error) => {
@@ -60,7 +62,11 @@ export default function Mypage() {
   return (
     <div className={cx('area')}>
       <InfoCard backgroundColor="#B13500" style={{ width: '90%' }}>
-        <MyPokeList pokes={pokes} onPokeClick={handlePokeClick} />
+        <MyPokeList
+          pokes={pokes}
+          onPokeClick={handlePokeClick}
+          loaded={loaded}
+        />
       </InfoCard>
       <div className={cx('recordWrapper')}>
         {runnings.length > 0 ? (
@@ -79,7 +85,7 @@ export default function Mypage() {
   );
 }
 
-function MyPokeList({ pokes = [], onPokeClick }) {
+function MyPokeList({ pokes = [], onPokeClick, loaded }) {
   const cx = classNames.bind(styles);
 
   return (
@@ -89,10 +95,21 @@ function MyPokeList({ pokes = [], onPokeClick }) {
           ? cx('pokeCard', 'defaultPokemon')
           : cx('pokeCard');
 
+        // return (
+        //   <li key={i}>
+        //     <button className={pokeClass} onClick={() => onPokeClick(poke)}>
+        //       <img src={poke.imageUrl} alt="poke" />
+        //     </button>
+        //   </li>
+        // );
         return (
           <li key={i}>
             <button className={pokeClass} onClick={() => onPokeClick(poke)}>
-              <img src={poke.imageUrl} alt="poke" />
+              {loaded ? (
+                <img src={poke.imageUrl} alt="poke" />
+              ) : (
+                <div className={cx('skeleton')}></div>
+              )}
             </button>
           </li>
         );

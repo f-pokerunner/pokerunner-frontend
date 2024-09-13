@@ -129,3 +129,20 @@
   font-size: 1.2em;
   padding: 10px;
 }
+
+.skeleton {
+  width: 60%;
+  height: 60%;
+  background-color: #ddd;
+  border-radius: 10px;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
