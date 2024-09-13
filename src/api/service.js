@@ -24,6 +24,11 @@ const setUserID = (userId) => {
   localStorage.setItem('userId', userId);
 };
 
+/**  로컬 스토리지에서 userId 가져오기 */
+export const getUserID = (userId) => {
+  return localStorage.getItem('userId', userId);
+};
+
 /** 지역(구) 리스트 받아오는 함수 */
 export const getSeoulLocationList = async () => {
   try {
@@ -61,7 +66,10 @@ export const handleSignup = async (nickname, address, pokemonName) => {
     const response = await signupUser(deviceId, nickname, address, pokemonName);
     if (typeof response === 'number') {
       setUserID(response);
+
+      return 'success'; // hsPyo: 이쪽 로직 여쭤보기. 숫자가 오면 성공이고 현재 함수를 끝내도 문제 없을지?!
     }
+
     console.log('Signup response:', response);
     if (response === 'User created successfully') {
       console.log('Signup successful:', response);

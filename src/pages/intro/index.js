@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ItemsCarousel from 'react-items-carousel';
 import classNames from 'classnames/bind';
 
@@ -16,19 +17,21 @@ import styles from './index.module.scss';
 
 const cx = classNames.bind(styles);
 
+const pokemonNames = ['이상해씨', '피카츄', '파이리'];
+
 export default function Intro() {
+  const navigate = useNavigate();
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [login, setLogin] = useState({
     nickname: '',
     address: '',
-    pokemonName: '',
+    pokemonName: pokemonNames[activeItemIndex], // 캐러샐 슬라이드를 안했을때 포켓몬 설정이 되어있지 않은 이슈로 인해 수정했습니다.
   });
   const [location, setLocation] = useState();
   const [showPopup, setShowPopup] = useState();
 
   /** 포켓몬 이름을 설정 */
   const updatePokemonName = (index) => {
-    const pokemonNames = ['이상해씨', '피카츄', '파이리'];
     setLogin((prev) => ({ ...prev, pokemonName: pokemonNames[index] }));
   };
 
@@ -51,6 +54,10 @@ export default function Intro() {
     if (nickname && address && pokemonName) {
       const response = await handleSignup(nickname, address, pokemonName);
       console.log('Signup or Login:', response);
+
+      if (response === 'success') {
+        navigate('/home', { replace: true });
+      }
     } else {
       console.error('All fields are required!');
     }
@@ -61,7 +68,7 @@ export default function Intro() {
     setShowPopup(true);
   };
 
-  /** 주소(구) 팝업 본문 클릭 */
+  /** 주소(구) 입력칸 클릭 > 팝업 본문 클릭 */
   const handlePopupContentClick = (item) => {
     setLogin((prev) => ({ ...prev, address: item }));
     setShowPopup(false);
