@@ -5,7 +5,7 @@ $locations: 강동구, 강북구, 강서구, 관악구, 광진구, 구로구, �
 .rankingMapContainer {
   position: relative;
   width: 100%;
-  height: 120%;
+  height: 100%;
   padding: 0 38px;
   background: linear-gradient(
     to top,
@@ -95,132 +95,173 @@ $locations: 강동구, 강북구, 강서구, 관악구, 광진구, 구로구, �
   left: 0;
   top: 0;
   width: 100%;
-  height: 120%;
-  padding: 24px 12px;
-  background-color: white;
+  height: 100%;
   z-index: 10;
 
-  .rankingBannerWrapper {
+  .rankingDetailModalInnerContainer {
     position: relative;
-    max-width: 420px;
-    padding: 0 36px;
-    margin: 0 auto;
-
-    .bannerText {
-      position: absolute;
-      left: 0;
-      top: 6%;
-      width: 100%;
-      text-align: center;
-      font-size: 2em;
-    }
-  }
-
-  .rankingFloorWrapper {
-    position: relative;
-    width: 100%;
-    max-width: 420px;
-    height: 38%;
-    max-height: 400px;
-    margin: 24% auto;
-
-    .rankers {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
-      max-height: 186px;
-      z-index: 2;
-      display: flex;
-      justify-content: center;
-      align-items: end;
-
-      .ranker {
-        max-width: 160px;
-        flex: 1 1 0;
-        padding: 12px;
-      }
-
-      .second {
-        transform: translateY(-78%);
-      }
-
-      .first {
-        transform: translateY(-120%);
-      }
-
-      .third {
-        transform: translateY(-64%);
-      }
-    }
-
-    .rankingFloor {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-    }
-  }
-
-  .rankerInfoWrapper {
-    width: 100%;
-    max-width: 420px;
-    margin: 0 auto;
     display: flex;
-
-    .rankerInfo {
-      flex: 1 1 0;
-      text-align: center;
-
-      > div {
-        height: 36px;
-        line-height: 36px;
-        font-size: 18px;
-        font-weight: bold;
-      }
-    }
-  }
-
-  .myRankingWrapper {
-    width: 100%;
-    padding: 24px 12px;
-
-    .myRanking {
-      height: 120px;
-      display: flex;
-      align-items: center;
-      padding: 12px;
-      border: 12px solid #f4d75e;
-      border-radius: 8px;
-      background-color: #f0ce48;
-      box-shadow: 2px 4px 8px 2px rgba(224, 155, 24, 0.5) inset;
-      font-size: 16px;
-    }
-  }
-
-  .completeButtonWrapper {
-    position: absolute;
+    flex-direction: column;
+    justify-content: flex-end;
     width: 100%;
     height: 100%;
-    left: 0;
-    top: 0;
-    padding-bottom: 120px;
-    display: flex;
+    padding: 88px 12px 120px;
+    background-color: white;
 
-    .completeButton {
-      align-self: flex-end;
-      width: 80%;
-      height: 42px;
+    .rankingBannerWrapper {
+      position: relative;
+      flex-grow: 1;
+      max-width: 420px;
+      padding: 0 36px;
       margin: 0 auto;
-      text-align: center;
-      line-height: 42px;
-      background-color: #f0f0f0;
-      box-shadow:
-        4px 4px 2px 2px rgba(0, 0, 0, 0.25),
-        2px 2px 2px 2px rgba(250, 250, 250) inset;
-      border-radius: 2px;
-      font-size: 18px;
+
+      .bannerText {
+        position: absolute;
+        left: 0;
+        top: 0%;
+        width: 100%;
+        text-align: center;
+        font-size: 2em;
+      }
+    }
+
+    .speechBubbleWrapper {
+      position: relative;
+      align-self: flex-end;
+      min-width: 60%;
+      max-width: 120px;
+      min-height: 100px;
+      margin: 36px auto 0;
+      background-color: white;
+      border: 2px solid rgba(0, 0, 0, 1);
+
+      &::before {
+        position: absolute;
+        content: '';
+        border-width: 16px;
+        border-style: solid;
+        border-color: rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) black
+          rgba(255, 255, 255, 0);
+
+        top: 100%;
+        left: 39.5%;
+        transform: rotate(180deg);
+      }
+
+      .speechBubble {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 28px;
+      }
+    }
+
+    .rankingFloorWrapper {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      height: 38%;
+      max-height: 400px;
+      margin: 0 auto 60px;
+
+      .rankers {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        max-height: 186px;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: end;
+
+        .ranker {
+          max-width: 160px;
+          flex: 1 1 0;
+          padding: 12px;
+        }
+
+        .second {
+          transform: translateY(-72%);
+        }
+
+        .first {
+          transform: translateY(-110%);
+        }
+
+        .third {
+          transform: translateY(-58%);
+        }
+      }
+
+      .rankingFloor {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+      }
+    }
+
+    .rankerInfoWrapper {
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto 24px;
+      display: flex;
+
+      .rankerInfo {
+        flex: 1 1 0;
+        text-align: center;
+
+        > div {
+          height: 36px;
+          line-height: 36px;
+          font-size: 18px;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .myRankingWrapper {
+      width: 100%;
+      padding: 24px 12px;
+
+      .myRanking {
+        height: 120px;
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        border: 12px solid #f4d75e;
+        border-radius: 8px;
+        background-color: #f0ce48;
+        box-shadow: 2px 4px 8px 2px rgba(224, 155, 24, 0.5) inset;
+        font-size: 16px;
+      }
+    }
+
+    .completeButtonWrapper {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: 0%;
+      padding-bottom: 36px;
+
+      .completeButton {
+        align-self: flex-end;
+        width: 80%;
+        height: 42px;
+        margin: 0 auto;
+        text-align: center;
+        line-height: 42px;
+        background-color: #f0f0f0;
+        box-shadow:
+          4px 4px 2px 2px rgba(0, 0, 0, 0.25),
+          2px 2px 2px 2px rgba(250, 250, 250) inset;
+        border-radius: 2px;
+        font-size: 18px;
+      }
     }
   }
 }

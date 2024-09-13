@@ -1,7 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames/bind';
 
-import { postRunningStart, postRunningEnd } from '../../api/service.js';
+import {
+  postRunningStart,
+  postRunningEnd,
+  getCommentAPI,
+  saveCommentAPI,
+  getUserID,
+} from '../../api/service.js';
 
 import { ReactComponent as PokeBall } from '../../assets/icons/PokeBall.svg';
 import pokemon1 from '../../assets/gifs/이상해씨gif.gif';
@@ -15,6 +21,7 @@ import { getUserHomeData } from '../../api/apiClient.js';
 const cx = classNames.bind(styles);
 
 export default function Home({ test }) {
+  const commentEl = useRef();
   const [isRunning, setIsRunning] = useState(false);
   const [userInfo, setUserInfo] = useState({
     level: 1,
@@ -24,7 +31,9 @@ export default function Home({ test }) {
     pokemonName: '꼬부기',
     imageUrl: pokemon1,
   });
-  const userId = 123123;
+  const userId = getUserID();
+  const [comment, setComment] = useState('');
+  const [showCommentModal, setShowCommentModal] = useState(false);
 
   const setCurrentPosition = async (position) => {
     const {
@@ -51,6 +60,28 @@ export default function Home({ test }) {
         });
       }
     }
+  };
+
+  const changeComment = (e) => {
+    const value = e.target.value;
+
+    setComment(value);
+  };
+
+  const clickCommentIcon = async () => {
+    const response = await getCommentAPI(userId);
+
+    if (response) {
+      setComment(response.comment);
+    }
+
+    setShowCommentModal(true);
+  };
+
+  const clickCommentModalConfirmButton = () => {
+    saveCommentAPI(userId, comment);
+    setComment('');
+    setShowCommentModal(false);
   };
 
   useEffect(() => {
@@ -90,68 +121,103 @@ export default function Home({ test }) {
   }, [deviceId]);
 
   return (
-    <div className={cx('homeContainer')}>
-      <button onClick={handleAddExperience}>경험치 추가</button>
-      {/* 상단 안내 문구 */}
-      <div className={cx('iconWrapper')}>
-        <div className={cx('icon')}>
-          <img src={map} alt="지도아이콘" />
-        </div>
-        <div className={cx('icon')}>
-          <img src={speechBalloon} alt="말풍선아이콘" />
-        </div>
-      </div>
-      <div className={cx('main')}>
-        {/* 말풍선 */}
-        <div className={cx('speechBubbleWrapper')}>
-          <div className={cx('speechBubble')}>
-            {isRunning ? '달리는중...' : '예시문구 입니다.'}
+    <>
+      <div className={cx('homeContainer')}>
+        <button onClick={handleAddExperience}>경험치 추가</button>
+        {/* 상단 안내 문구 */}
+        <div className={cx('iconWrapper')}>
+          <div className={cx('icon')}>
+            <img src={map} alt="지도아이콘" />
+          </div>
+          <div className={cx('icon')} onClick={clickCommentIcon}>
+            <img src={speechBalloon} alt="말풍선아이콘" />
           </div>
         </div>
+        <div className={cx('main')}>
+          {/* 말풍선 */}
+          <div className={cx('speechBubbleWrapper')}>
+            <div className={cx('speechBubble')}>
+              {isRunning ? '달리는중...' : '예시문구 입니다.'}
+            </div>
+          </div>
 
-        {/* 포켓몬 */}
-        <div className={cx('pokemonGifWrapper')}>
-          <img
-            className={cx('pokemonGif')}
-            src={userInfo.imageUrl}
-            alt="포켓몬"
-          />
-        </div>
-      </div>
-      <InfoCard
-        backgroundColor="#446934"
-        title={userInfo.userNickname}
-        style={{ fontSize: '1rem' }}
-      >
-        <div className={cx('infoWrapper')}>
-          <div className={cx('infoBox')}>
-            <div className={cx('info')}>
-              <span>{userInfo.pokemonName}</span>
-              <span>Lv. {userInfo.level}</span>
-            </div>
-            <div className={cx('progressWrapper')}>
-              <span>exp</span>
-              <ProgressBar currentExp={userInfo.experience} maxExp={100} />
-            </div>
-            <span className={cx('currentExp')}>{userInfo.experience}/100</span>
+          {/* 포켓몬 */}
+          <div className={cx('pokemonGifWrapper')}>
+            <img
+              className={cx('pokemonGif')}
+              src={userInfo.imageUrl}
+              alt="포켓몬"
+            />
           </div>
-          <div className={cx('statusWrapper')}>
-            <button
-              className={cx('statusBox', { running: !isRunning })}
-              onClick={handleButtonClick}
-            >
-              <PokeBall style={{ zIndex: '2' }} />
-              <span className={cx('statusText')}>
-                {isRunning ? '러닝 종료' : '러닝 시작'}
+        </div>
+        <InfoCard
+          backgroundColor="#446934"
+          title={userInfo.userNickname}
+          style={{ fontSize: '1rem' }}
+        >
+          <div className={cx('infoWrapper')}>
+            <div className={cx('infoBox')}>
+              <div className={cx('info')}>
+                <span>{userInfo.pokemonName}</span>
+                <span>Lv. {userInfo.level}</span>
+              </div>
+              <div className={cx('progressWrapper')}>
+                <span>exp</span>
+                <ProgressBar currentExp={userInfo.experience} maxExp={100} />
+              </div>
+              <span className={cx('currentExp')}>
+                {userInfo.experience}/100
               </span>
-            </button>
-            <div className={cx('run')}>
-              <span>7.5Km/h</span>
+            </div>
+            <div className={cx('statusWrapper')}>
+              <button
+                className={cx('statusBox', { running: !isRunning })}
+                onClick={handleButtonClick}
+              >
+                <PokeBall style={{ zIndex: '2' }} />
+                <span className={cx('statusText')}>
+                  {isRunning ? '러닝 종료' : '러닝 시작'}
+                </span>
+              </button>
+              <div className={cx('run')}>
+                <span>7.5Km/h</span>
+              </div>
+            </div>
+          </div>
+        </InfoCard>
+      </div>
+
+      {/* 상단 말풍선 아이콘 클릭 > 1등 코멘트 작성 모달 */}
+      {showCommentModal && (
+        <div className={cx('commentModalContainer')}>
+          <div className={cx('commentModalInnerContainer')}>
+            <div className={cx('commentWrapper')}>
+              <div className={cx('comment')}>
+                <div className={cx('title')}>코멘트를 작성해 주세요!</div>
+                <div className={cx('content')}>
+                  작성하신 코멘트는 지역(구)의 랭킹 1순위가 되면 모든
+                  포켓러너들에게 노출됩니다.
+                </div>
+              </div>
+              <input
+                ref={commentEl}
+                className={cx('input')}
+                value={comment}
+                type="text"
+                onChange={changeComment}
+              />
+            </div>
+
+            <div
+              className={cx('completeButtonWrapper')}
+              onClick={clickCommentModalConfirmButton}
+            >
+              <div className={cx('completeButton')}>확 인</div>
             </div>
           </div>
         </div>
-      </InfoCard>
-    </div>
+      )}
+    </>
   );
 }
 

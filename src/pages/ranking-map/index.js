@@ -108,63 +108,81 @@ export default function RankingMap() {
       {/* 지역 클릭시 노출되는 모달 */}
       {showModal && (
         <div className={cx('rankingDetailModalContainer')}>
-          <div className={cx('rankingBannerWrapper')}>
-            <div className={cx('bannerText')}>{selectedLocationName} 랭킹</div>
-            <img
-              className={cx('bannerImage')}
-              src={ribbonBanner}
-              alt="랭킹배너"
-            />
-          </div>
+          <div className={cx('rankingDetailModalInnerContainer')}>
+            {/* 랭킹 배너 */}
+            <div className={cx('rankingBannerWrapper')}>
+              <div className={cx('bannerText')}>
+                {selectedLocationName} 랭킹
+              </div>
+              <img
+                className={cx('bannerImage')}
+                src={ribbonBanner}
+                alt="랭킹배너"
+              />
+            </div>
 
-          {/* 랭커 캐릭터, 순위 발판 이미지 */}
-          <div className={cx('rankingFloorWrapper')}>
-            <img className={cx('rankingFloor')} src={ranking} />
+            {/* 말풍선 */}
+            {rankerInfoList?.map((ranker) => {
+              const comment = ranker?.ranking === 1 && ranker?.comment;
 
-            <div className={cx('rankers')}>
+              return (
+                comment && (
+                  <div className={cx('speechBubbleWrapper')}>
+                    <div className={cx('speechBubble')}>{comment}</div>
+                  </div>
+                )
+              );
+            })}
+
+            {/* 랭커 캐릭터, 순위 발판 이미지 */}
+            <div className={cx('rankingFloorWrapper')}>
+              <img className={cx('rankingFloor')} src={ranking} />
+
+              <div className={cx('rankers')}>
+                {[2, 1, 3].map((value, index) => {
+                  const ranker = rankerInfoList.find(
+                    (item) => item.ranking === value,
+                  );
+
+                  const className =
+                    (value === 1 && 'first') ||
+                    (value === 2 && 'second') ||
+                    (value === 3 && 'third') ||
+                    '';
+
+                  return (
+                    <div key={value} className={cx('ranker', className)}>
+                      {ranker && <PockemonImage src={ranker?.imageUrl} />}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* 랭커의 닉네임, 레벨, 경험치 */}
+            <div className={cx('rankerInfoWrapper')}>
               {[2, 1, 3].map((value, index) => {
                 const ranker = rankerInfoList.find(
                   (item) => item.ranking === value,
                 );
 
-                const className =
-                  (value === 1 && 'first') ||
-                  (value === 2 && 'second') ||
-                  (value === 3 && 'third') ||
-                  '';
-
                 return (
-                  <div key={value} className={cx('ranker', className)}>
-                    {ranker && <PockemonImage src={ranker?.imageUrl} />}
-                  </div>
+                  <p key={value} className={cx('rankerInfo')}>
+                    <div>{ranker?.userNickname || ''}</div>
+                    <div>{ranker?.level ? `Lv. ${ranker.level}` : ''}</div>
+                    <div>{ranker?.exp ? `Exp. ${ranker.exp}` : ''}</div>
+                  </p>
                 );
               })}
             </div>
-          </div>
 
-          {/* 랭커의 닉네임, 레벨, 경험치 */}
-          <div className={cx('rankerInfoWrapper')}>
-            {[2, 1, 3].map((value, index) => {
-              const ranker = rankerInfoList.find(
-                (item) => item.ranking === value,
-              );
-
-              return (
-                <p key={value} className={cx('rankerInfo')}>
-                  <div>{ranker?.userNickname || ''}</div>
-                  <div>{ranker?.level ? `Lv. ${ranker.level}` : ''}</div>
-                  <div>{ranker?.exp ? `Exp. ${ranker.exp}` : ''}</div>
-                </p>
-              );
-            })}
-          </div>
-
-          {/* <div className={cx('myRankingWrapper')}>
+            {/* <div className={cx('myRankingWrapper')}>
             <div className={cx('myRanking')}>나의 등수는 N등 입니다</div>
           </div> */}
-          <div className={cx('completeButtonWrapper')}>
-            <div className={cx('completeButton')} onClick={clickModalButton}>
-              확 인
+            <div className={cx('completeButtonWrapper')}>
+              <div className={cx('completeButton')} onClick={clickModalButton}>
+                확 인
+              </div>
             </div>
           </div>
         </div>
