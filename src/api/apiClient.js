@@ -160,4 +160,15 @@ export const getLocation1stList = async () => {
   }
 };
 
+// 지도 화면 > 특정 지역(구)의 1~3 랭커 정보 불러오기
+export const getRankerInfo = async (guAddress) => {
+  try {
+    const response = await apiClient.post('/gu/boss', { guAddress });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user runnings:', error);
+    return null;
+  }
+};
+
 export default apiClient;

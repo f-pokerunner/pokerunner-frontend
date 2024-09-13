@@ -8,6 +8,7 @@ import {
   runningEnd,
   getPokemons,
   getLocation1stList,
+  getRankerInfo,
 } from './apiClient';
 
 /**  로컬 스토리지에서 기기 고유 ID 가져오기 */
@@ -127,4 +128,9 @@ export const postRunningEnd = async (userId) => {
 /** 지도 화면 > 각 지역(구) 1순위 리스트 불러오기 */
 export const getLocation1stListAPI = async () => {
   return await getLocation1stList();
+};
+
+/** 지도 화면 > 특정 지역(구)의 1~3 랭커 정보 불러오기 */
+export const getRankerInfoAPI = async (guAddress) => {
+  return await getRankerInfo(guAddress);
 };

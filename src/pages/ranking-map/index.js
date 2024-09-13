@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 
+// import pokemon1 from '../../assets/gifs/이상해씨gif.gif';
+// import pokemon2 from '../../assets/gifs/피카츄gif.gif';
+// import pokemon3 from '../../assets/gifs/파이리gif.gif';
 import PockemonImage from '../../components/PokemonImage';
 import ribbonBanner from '../../assets/icons/ribbon_banner.svg';
-import pokemon1 from '../../assets/gifs/이상해씨gif.gif';
-import pokemon2 from '../../assets/gifs/피카츄gif.gif';
-import pokemon3 from '../../assets/gifs/파이리gif.gif';
 import ranking from '../../assets/icons/ranking.svg';
 
-import { getLocationListAPI, getLocation1stListAPI } from '../../api/service';
+import {
+  getLocationListAPI,
+  getLocation1stListAPI,
+  getRankerInfoAPI,
+} from '../../api/service';
 
 import styles from './index.module.scss';
 
@@ -16,22 +20,9 @@ const cx = classNames.bind(styles);
 
 export default function RankingMap() {
   const [showModal, setShowModal] = useState(false);
-
-  /**
-   * locationInfoList 구조
-   *
-   * [{
-   *  locationName: '',
-   *  아래의 값은 랭커가 없으면 없을 수 있음.
-   *  imageUrl: '',
-   *  pokemonName: '',
-   *  runningAddress: '',
-   *  totalDistance: '',
-   *  userId: 0,
-   *  userNickname: '',
-   * }, ...]
-   */
   const [locationInfoList, setLocationInfoList] = useState([]);
+  const [rankerInfoList, setRankerInfoList] = useState([]);
+  const [selectedLocationName, setSelectedLocationName] = useState('');
 
   /**
    * TODO:
@@ -41,23 +32,20 @@ export default function RankingMap() {
    * 4. 피카츄가 아닌 포켓몬은 scale을 0.8로 조정 필요
    */
 
-  const clickLocation = () => {
+  const clickLocation = async (guAddress) => {
+    const response = await getRankerInfoAPI(guAddress);
+
+    if (response) {
+      setRankerInfoList(response);
+    }
+    setSelectedLocationName(guAddress);
     setShowModal(true);
   };
 
   const clickModalButton = () => {
+    setSelectedLocationName('');
+    setRankerInfoList([]);
     setShowModal(false);
-  };
-
-  const d = {
-    locationName: '',
-    // 아래의 값은 랭커가 없으면 없을 수 있음.
-    imageUrl: '',
-    pokemonName: '',
-    runningAddress: '',
-    totalDistance: '',
-    userId: 0,
-    userNickname: '',
   };
 
   /**
@@ -105,8 +93,12 @@ export default function RankingMap() {
                 <div
                   key={index}
                   className={cx('map', location.locationName)}
-                  onClick={clickLocation}
-                ></div>
+                  onClick={() => clickLocation(location.locationName)}
+                >
+                  {location.imageUrl && (
+                    <PockemonImage src={location.imageUrl} />
+                  )}
+                </div>
               );
             })}
           </div>
@@ -117,49 +109,59 @@ export default function RankingMap() {
       {showModal && (
         <div className={cx('rankingDetailModalContainer')}>
           <div className={cx('rankingBannerWrapper')}>
-            <div className={cx('bannerText')}>무슨무슨구 랭킹</div>
+            <div className={cx('bannerText')}>{selectedLocationName} 랭킹</div>
             <img
               className={cx('bannerImage')}
               src={ribbonBanner}
               alt="랭킹배너"
             />
           </div>
+
+          {/* 랭커 캐릭터, 순위 발판 이미지 */}
           <div className={cx('rankingFloorWrapper')}>
             <img className={cx('rankingFloor')} src={ranking} />
 
             <div className={cx('rankers')}>
-              <div className={cx('ranker', 'secondPlace')}>
-                <PockemonImage src={pokemon3} />
-              </div>
-              <div className={cx('ranker', 'firstPlace')}>
-                <PockemonImage src={pokemon2} name={'피카츄'} />
-              </div>
-              <div className={cx('ranker', 'thirdPlace')}>
-                <PockemonImage src={pokemon1} />
-              </div>
+              {[2, 1, 3].map((value, index) => {
+                const ranker = rankerInfoList.find(
+                  (item) => item.ranking === value,
+                );
+
+                const className =
+                  (value === 1 && 'first') ||
+                  (value === 2 && 'second') ||
+                  (value === 3 && 'third') ||
+                  '';
+
+                return (
+                  <div key={value} className={cx('ranker', className)}>
+                    {ranker && <PockemonImage src={ranker?.imageUrl} />}
+                  </div>
+                );
+              })}
             </div>
           </div>
 
+          {/* 랭커의 닉네임, 레벨, 경험치 */}
           <div className={cx('rankerInfoWrapper')}>
-            <p className={cx('rankerInfo')}>
-              <div>포켓몬 닉네임</div>
-              <div>Lv.34</div>
-              <div>Exp.227</div>
-            </p>
-            <p className={cx('rankerInfo')}>
-              <div>포켓몬 닉네임</div>
-              <div>Lv.34</div>
-              <div>Exp.227</div>
-            </p>
-            <p className={cx('rankerInfo')}>
-              <div>포켓몬 닉네임</div>
-              <div>Lv.34</div>
-              <div>Exp.227</div>
-            </p>
+            {[2, 1, 3].map((value, index) => {
+              const ranker = rankerInfoList.find(
+                (item) => item.ranking === value,
+              );
+
+              return (
+                <p key={value} className={cx('rankerInfo')}>
+                  <div>{ranker?.userNickname || ''}</div>
+                  <div>{ranker?.level ? `Lv. ${ranker.level}` : ''}</div>
+                  <div>{ranker?.exp ? `Exp. ${ranker.exp}` : ''}</div>
+                </p>
+              );
+            })}
           </div>
-          <div className={cx('myRankingWrapper')}>
+
+          {/* <div className={cx('myRankingWrapper')}>
             <div className={cx('myRanking')}>나의 등수는 N등 입니다</div>
-          </div>
+          </div> */}
           <div className={cx('completeButtonWrapper')}>
             <div className={cx('completeButton')} onClick={clickModalButton}>
               확 인
