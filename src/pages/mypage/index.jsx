@@ -12,18 +12,19 @@ export default function Mypage() {
   const [pokes, setPokes] = useState([]);
   const [runnings, setRunnings] = useState([]);
   const [defaultPoke, setDefaultPoke] = useState('');
-  const [loaded, setLoaded] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const cx = classNames.bind(styles);
   const deviceId = localStorage.getItem('deviceId');
 
   useEffect(() => {
     if (deviceId) {
+      setLoading(true);
       getUserPokemons(deviceId)
         .then((data) => {
           if (data) {
             setPokes(data);
-            setLoaded(false);
+            setLoading(false);
           }
         })
         .catch((error) => {
@@ -65,7 +66,7 @@ export default function Mypage() {
         <MyPokeList
           pokes={pokes}
           onPokeClick={handlePokeClick}
-          loaded={loaded}
+          loading={loading}
         />
       </InfoCard>
       <div className={cx('recordWrapper')}>
@@ -85,9 +86,23 @@ export default function Mypage() {
   );
 }
 
-function MyPokeList({ pokes = [], onPokeClick, loaded }) {
+function MyPokeList({ pokes = [], onPokeClick, loading }) {
   const cx = classNames.bind(styles);
-
+  if (loading) {
+    return (
+      <ul className={cx('cardWrapper')}>
+        {Array(6)
+          .fill(0)
+          .map((_, i) => (
+            <li key={i}>
+              <div className={cx('pokeCard', 'skeleton')}>
+                <div className={cx('skeletonImage')}></div>
+              </div>
+            </li>
+          ))}
+      </ul>
+    );
+  }
   return (
     <ul className={cx('cardWrapper')}>
       {pokes.map((poke, i) => {
@@ -95,21 +110,10 @@ function MyPokeList({ pokes = [], onPokeClick, loaded }) {
           ? cx('pokeCard', 'defaultPokemon')
           : cx('pokeCard');
 
-        // return (
-        //   <li key={i}>
-        //     <button className={pokeClass} onClick={() => onPokeClick(poke)}>
-        //       <img src={poke.imageUrl} alt="poke" />
-        //     </button>
-        //   </li>
-        // );
         return (
           <li key={i}>
             <button className={pokeClass} onClick={() => onPokeClick(poke)}>
-              {loaded ? (
-                <img src={poke.imageUrl} alt="poke" />
-              ) : (
-                <div className={cx('skeleton')}></div>
-              )}
+              <img src={poke.imageUrl} alt="poke" />
             </button>
           </li>
         );
