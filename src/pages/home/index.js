@@ -120,7 +120,7 @@ export default function Home({ test }) {
       </div>
       <InfoCard
         backgroundColor="#446934"
-        title={'상태'}
+        title={userInfo.userNickname}
         style={{ fontSize: '1rem' }}
       >
         <div className={cx('infoWrapper')}>
