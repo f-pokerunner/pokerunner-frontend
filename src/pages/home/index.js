@@ -9,10 +9,11 @@ import map from '../../assets/icons/icon_map.png';
 import speechBalloon from '../../assets/icons/icon_speech_balloon.png';
 import InfoCard from '../../components/InfoCard/index.jsx';
 import styles from './index.module.scss';
+import { useExperience } from '../../context/ExperienceContext.js';
 
 const cx = classNames.bind(styles);
 
-export default function Home() {
+export default function Home({ test }) {
   const [isRunning, setIsRunning] = useState(false);
   const [userInfo, setUserInfo] = useState({
     level: 1,
@@ -61,8 +62,15 @@ export default function Home() {
     }
   }, []);
 
+  const { checkExperience } = useExperience();
+
+  const handleAddExperience = () => {
+    const newExperience = 50; // 예시 경험치 값
+    checkExperience(newExperience);
+  };
   return (
     <div className={cx('homeContainer')}>
+      <button onClick={handleAddExperience}>경험치 추가</button>
       {/* 상단 안내 문구 */}
       <div className={cx('iconWrapper')}>
         <div className={cx('icon')}>
@@ -72,7 +80,6 @@ export default function Home() {
           <img src={speechBalloon} alt="말풍선아이콘" />
         </div>
       </div>
-
       <div className={cx('main')}>
         {/* 말풍선 */}
         <div className={cx('speechBubbleWrapper')}>
@@ -86,7 +93,6 @@ export default function Home() {
           <img className={cx('pokemonGif')} src={pokemon1} alt="포켓몬" />
         </div>
       </div>
-
       <InfoCard
         backgroundColor="#446934"
         title={'상태'}

@@ -1,8 +1,6 @@
 import classNames from 'classnames/bind';
 import InfoCard from '../../components/InfoCard/index.jsx';
 import styles from './index.module.scss';
-import Popup from '../../components/popup';
-import { useExperiencePoll } from '../../\bhooks/useExperiencePoll';
 import { useEffect, useState } from 'react';
 import { getUserPokemons, getUserRunnings } from '../../api/apiClient.js';
 
@@ -11,7 +9,6 @@ export default function Mypage() {
   const [runnings, setRunnings] = useState([]);
 
   const cx = classNames.bind(styles);
-  const { showPopup, setShowPopup, message } = useExperiencePoll();
   const deviceId = localStorage.getItem('deviceId');
 
   useEffect(() => {
@@ -42,10 +39,6 @@ export default function Mypage() {
 
   return (
     <div className={cx('area')}>
-      {showPopup && (
-        <Popup message={message} onClose={() => setShowPopup(false)} />
-      )}
-
       <InfoCard backgroundColor="#B13500" style={{ width: '90%' }}>
         <MyPokeList pokes={pokes} />
       </InfoCard>
