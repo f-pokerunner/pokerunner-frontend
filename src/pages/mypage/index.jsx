@@ -31,7 +31,6 @@ export default function Mypage() {
       // 런닝 기록 데이터 가져오기
       getUserRunnings(deviceId)
         .then((data) => {
-          console.log(data);
           if (data) {
             setRunnings(data);
           }
