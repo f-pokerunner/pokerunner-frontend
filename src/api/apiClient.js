@@ -172,4 +172,14 @@ export const getRankerInfo = async (guAddress) => {
   }
 };
 
+export const getUserHomeData = async (userUuid) => {
+  try {
+    const response = await apiClient.get(`/user/home/${userUuid}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user home data:', error);
+    return null;
+  }
+};
+
 export default apiClient;

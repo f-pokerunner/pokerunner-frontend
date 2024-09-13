@@ -10,6 +10,7 @@ import speechBalloon from '../../assets/icons/icon_speech_balloon.png';
 import InfoCard from '../../components/InfoCard/index.jsx';
 import styles from './index.module.scss';
 import { useExperience } from '../../context/ExperienceContext.js';
+import { getUserHomeData } from '../../api/apiClient.js';
 
 const cx = classNames.bind(styles);
 
@@ -17,9 +18,9 @@ export default function Home({ test }) {
   const [isRunning, setIsRunning] = useState(false);
   const [userInfo, setUserInfo] = useState({
     level: 1,
-    exp: 289,
-    notRunTime: 358,
-    nickName: 'heesu',
+    experience: 289,
+    notRunningDays: 358,
+    userNickname: 'heesu',
     pokemonName: '꼬부기',
     imageUrl: pokemon1,
   });
@@ -68,6 +69,26 @@ export default function Home({ test }) {
     const newExperience = 50; // 예시 경험치 값
     checkExperience(newExperience);
   };
+  const deviceId = localStorage.getItem('deviceId');
+
+  useEffect(() => {
+    const fetchUserHomeData = async () => {
+      const data = await getUserHomeData(deviceId);
+
+      if (data) {
+        setUserInfo({
+          level: data.level,
+          experience: data.experience,
+          notRunningDays: data.notRunningDays,
+          userNickname: data.userNickname,
+          pokemonName: data.pokemonName,
+          imageUrl: data.imageUrl || pokemon1, // 기본 포켓몬 이미지
+        });
+      }
+    };
+    fetchUserHomeData();
+  }, [deviceId]);
+
   return (
     <div className={cx('homeContainer')}>
       <button onClick={handleAddExperience}>경험치 추가</button>
@@ -90,7 +111,11 @@ export default function Home({ test }) {
 
         {/* 포켓몬 */}
         <div className={cx('pokemonGifWrapper')}>
-          <img className={cx('pokemonGif')} src={pokemon1} alt="포켓몬" />
+          <img
+            className={cx('pokemonGif')}
+            src={userInfo.imageUrl}
+            alt="포켓몬"
+          />
         </div>
       </div>
       <InfoCard
@@ -101,14 +126,14 @@ export default function Home({ test }) {
         <div className={cx('infoWrapper')}>
           <div className={cx('infoBox')}>
             <div className={cx('info')}>
-              <span>이상해씨</span>
-              <span>Lv. 34</span>
+              <span>{userInfo.pokemonName}</span>
+              <span>Lv. {userInfo.level}</span>
             </div>
             <div className={cx('progressWrapper')}>
               <span>exp</span>
-              <ProgressBar currentExp={250} maxExp={300} />
+              <ProgressBar currentExp={userInfo.experience} maxExp={100} />
             </div>
-            <span className={cx('currentExp')}>270/300</span>
+            <span className={cx('currentExp')}>{userInfo.experience}/100</span>
           </div>
           <div className={cx('statusWrapper')}>
             <button
