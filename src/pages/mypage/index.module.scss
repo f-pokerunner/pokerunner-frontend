@@ -49,6 +49,18 @@
   justify-content: center;
 }
 
+@keyframes sparkle {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 1);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  }
+}
+
 .pokeCard {
   @include cardStyle(90%, 90%);
   width: 90%;
@@ -64,6 +76,10 @@
   &:active {
     opacity: 0.8;
   }
+  &.defaultPokemon {
+    animation: sparkle 1s infinite; /* 반짝임 애니메이션 적용 */
+  }
+
   img {
     width: 60%;
     height: auto;

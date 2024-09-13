@@ -2,11 +2,16 @@ import classNames from 'classnames/bind';
 import InfoCard from '../../components/InfoCard/index.jsx';
 import styles from './index.module.scss';
 import { useEffect, useState } from 'react';
-import { getUserPokemons, getUserRunnings } from '../../api/apiClient.js';
+import {
+  getUserPokemons,
+  getUserRunnings,
+  setDefaultPokemon,
+} from '../../api/apiClient.js';
 
 export default function Mypage() {
   const [pokes, setPokes] = useState([]);
   const [runnings, setRunnings] = useState([]);
+  const [defaultPoke, setDefaultPoke] = useState('');
 
   const cx = classNames.bind(styles);
   const deviceId = localStorage.getItem('deviceId');
@@ -35,12 +40,28 @@ export default function Mypage() {
           console.error('Error fetching user runnings:', error);
         });
     }
-  }, [deviceId]);
+  }, [deviceId, defaultPoke]);
+
+  const handlePokeClick = async (poke) => {
+    try {
+      const response = await setDefaultPokemon(deviceId, poke.pokemonName);
+      // 문자열로 넘어오는 response 대신 리렌더링 시키기 위한 new Date()
+      setDefaultPoke(new Date());
+      if (response) {
+        console.log('Default Pokemon set successfully:', response);
+        // 성공 시 사용자에게 피드백을 제공하거나 UI 업데이트
+      } else {
+        console.error('Failed to set default Pokemon');
+      }
+    } catch (error) {
+      console.error('Error setting default Pokemon:', error);
+    }
+  };
 
   return (
     <div className={cx('area')}>
       <InfoCard backgroundColor="#B13500" style={{ width: '90%' }}>
-        <MyPokeList pokes={pokes} />
+        <MyPokeList pokes={pokes} onPokeClick={handlePokeClick} />
       </InfoCard>
       <div className={cx('recordWrapper')}>
         {runnings.length > 0 ? (
@@ -59,15 +80,19 @@ export default function Mypage() {
   );
 }
 
-function MyPokeList({ pokes = [] }) {
+function MyPokeList({ pokes = [], onPokeClick }) {
   const cx = classNames.bind(styles);
 
   return (
     <ul className={cx('cardWrapper')}>
       {pokes.map((poke, i) => {
+        const pokeClass = poke.defaultPokemon
+          ? cx('pokeCard', 'defaultPokemon')
+          : cx('pokeCard');
+
         return (
           <li key={i}>
-            <button className={cx('pokeCard')}>
+            <button className={pokeClass} onClick={() => onPokeClick(poke)}>
               <img src={poke.imageUrl} alt="poke" />
             </button>
           </li>
