@@ -34,7 +34,7 @@ export default function RankingMap() {
 
   const clickLocation = async (guAddress) => {
     const response = await getRankerInfoAPI(guAddress);
-
+    console.log('Clicked location:', guAddress);
     if (response) {
       setRankerInfoList(response);
     }
@@ -136,7 +136,7 @@ export default function RankingMap() {
 
             {/* 랭커 캐릭터, 순위 발판 이미지 */}
             <div className={cx('rankingFloorWrapper')}>
-              <img className={cx('rankingFloor')} src={ranking} />
+              <img className={cx('rankingFloor')} src={ranking} alt="" />
 
               <div className={cx('rankers')}>
                 {[2, 1, 3].map((value, index) => {
@@ -167,11 +167,11 @@ export default function RankingMap() {
                 );
 
                 return (
-                  <p key={value} className={cx('rankerInfo')}>
+                  <div key={value} className={cx('rankerInfo')}>
                     <div>{ranker?.userNickname || ''}</div>
                     <div>{ranker?.level ? `Lv. ${ranker.level}` : ''}</div>
                     <div>{ranker?.exp ? `Exp. ${ranker.exp}` : ''}</div>
-                  </p>
+                  </div>
                 );
               })}
             </div>

@@ -71,7 +71,8 @@ $locations: 강동구, 강북구, 강서구, 관악구, 광진구, 구로구, �
           &::before {
             position: absolute;
             content: '#{$location}';
-            width: 100%;
+            width: fit-content;
+            min-width: 60px;
             padding: 4px;
             font-weight: 700;
             opacity: 0.4;
