@@ -28,7 +28,6 @@ $ npm run lint:fix
 ```
 
 ## 기능 시연
-
 ![pokes](https://github.com/user-attachments/assets/690cf4a9-9a81-4726-ad24-e89fe6ea9ac1)
 
 ![map](https://github.com/user-attachments/assets/860fdaf4-a6ee-45bb-85f5-15fd13e524d1)
