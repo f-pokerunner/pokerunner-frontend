@@ -17,6 +17,8 @@
 
 ### 백엔드
 
+- [@ddoddii ](https://github.com/ddoddii) (소은)
+- [@dailyzett](https://github.com/dailyzett) (세준)
 - 백엔드에 대한 자세한 내용은 [여기](https://github.com/f-pokerunner/pokerunner-backend)에서 확인하실 수 있습니다.
 
 ## Script
