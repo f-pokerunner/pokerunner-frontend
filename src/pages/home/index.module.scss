@@ -1,9 +1,37 @@
 @use '../../assets/styles/base/mixins' as *;
 
+@keyframes fadeout {
+  /* 효과를 동작시간 동안 0 ~ 1까지 */
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.revolution {
+  &.none {
+    display: none;
+  }
+
+  &.revol {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    object-fit: cover;
+    z-index: 13;
+    animation: fadeout 3s;
+  }
+}
+
 .homeContainer {
   width: 100%;
-  height: 115%;
-  padding: 0 38px;
+  height: 100%;
+  padding: 28px 38px 105.5px 38px; // 10.5.5px은 하단탭 높이
   background: linear-gradient(
     to top,
     rgba(79, 118, 44, 50%) 0%,
@@ -15,88 +43,99 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
 
-  .noticeBoxWrapper {
+  .iconWrapper {
     width: 100%;
-    margin-top: 80px;
+    align-self: flex-start;
 
-    .noticeBox {
-      width: 100%;
-      height: 42px;
-      padding: 0 10px;
-      margin-top: 20px;
-      border-radius: 8px;
-      border: 1px solid #d9d9d9;
-      background-color: white;
-      line-height: 42px;
-      font-size: 16px;
+    .icon {
+      width: fit-content;
+      border-radius: 4px;
+      box-shadow: -5px -5px 8px 4px rgba(95, 171, 181, 0.25);
+      cursor: pointer;
+
+      &:first-child {
+        margin-top: 12px;
+        margin-bottom: 20px;
+      }
     }
   }
 
-  .speechBubbleWrapper {
-    position: relative;
-    align-self: flex-end;
-    min-width: 50%;
-    max-width: 120px;
-    min-height: 100px;
-    border-radius: 50%;
-    background-color: white;
-    margin-top: 48px;
-    box-shadow:
-      4px 4px 12px 8px rgba(95, 171, 181, 0.25),
-      1px 2px 8px 1px rgba(95, 171, 181, 0.25) inset;
+  .main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 
-    &::before {
-      position: absolute;
-      content: '';
-      border-width: 16px;
-      border-style: solid;
-      border-color: rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) white
-        rgba(255, 255, 255, 0);
-      border-right: white;
-      top: 99%;
-      left: 39.5%;
-      transform: rotate(180deg);
-    }
-
-    .speechBubble {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      padding: 28px;
-    }
-  }
-  .pokemonGifWrapper {
-    margin-top: 20px;
-    position: relative; /* position relative 설정 */
-
-    .pokemonGif {
-      width: 138px;
-      height: 138px;
-      margin: 0 auto;
-      object-fit: contain;
-    }
-
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 150%;
-      height: 30px;
-      background: rgba(0, 0, 0, 0.5);
+    .speechBubbleWrapper {
+      position: relative;
+      align-self: flex-end;
+      min-width: 50%;
+      max-width: 120px;
+      min-height: 100px;
       border-radius: 50%;
-      z-index: -1;
+      background-color: white;
+      box-shadow:
+        4px 4px 12px 8px rgba(95, 171, 181, 0.25),
+        1px 2px 8px 1px rgba(95, 171, 181, 0.25) inset;
+
+      &::before {
+        position: absolute;
+        content: '';
+        border-width: 16px;
+        border-style: solid;
+        border-color: rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) white
+          rgba(255, 255, 255, 0);
+        border-right: white;
+        top: 99%;
+        left: 39.5%;
+        transform: rotate(180deg);
+      }
+
+      .speechBubble {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 28px;
+
+        color: #333333;
+        font-weight: bold;
+        font-size: 1rem;
+        text-shadow: 0.8px 0.8px 0 rgba(0, 0, 0, 0.5);
+
+        @include dosiyagi-medium;
+      }
+    }
+    .pokemonGifWrapper {
+      position: relative; /* position relative 설정 */
+
+      .pokemonGif {
+        width: 138px;
+        height: 138px;
+        margin: 0 auto;
+        object-fit: contain;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        height: 30px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        z-index: -1;
+      }
     }
   }
 }
 
 .infoWrapper {
   width: 100%;
-  @include pretendard-bold;
 }
 
 .infoBox {
@@ -170,6 +209,7 @@
   padding: 0.8em 1em 0.2em 1em;
   font-size: 1.125rem;
   margin-top: 20px;
+  cursor: pointer;
 
   &::after {
     content: '';
@@ -183,9 +223,18 @@
     z-index: 1;
   }
 
-  span {
+  .statusText {
     z-index: 2;
     width: 100%;
+    color: #000;
+
+    @media (max-width: 600px) {
+      font-size: 1rem;
+    }
+  }
+
+  &.running .statusText {
+    color: #ff4d00;
   }
 }
 
@@ -220,6 +269,80 @@
   span {
     color: #dfefd9;
     font-size: 1.25rem;
-    @include pretendard-bold;
+  }
+}
+
+.commentModalContainer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(124, 230, 242, 100%),
+    rgba(189, 243, 249, 100%) 70%,
+    white
+  );
+  z-index: 10;
+
+  .commentModalInnerContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    padding: 120px 38px;
+
+    .commentWrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      .comment {
+        width: 100%;
+
+        .title {
+          font-size: 24px;
+          margin-bottom: 12px;
+        }
+
+        .content {
+          font-size: 16px;
+          margin-bottom: 34px;
+          word-break: keep-all;
+        }
+      }
+
+      .input {
+        height: 160px;
+        border-radius: 8px;
+        background: rgba(250, 250, 250, 0.3);
+      }
+    }
+
+    .completeButtonWrapper {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: 0%;
+      padding-bottom: 36px;
+
+      .completeButton {
+        align-self: flex-end;
+        width: 80%;
+        height: 42px;
+        margin: 0 auto;
+        text-align: center;
+        line-height: 42px;
+        background-color: #f0f0f0;
+        box-shadow:
+          4px 4px 2px 2px rgba(0, 0, 0, 0.25),
+          2px 2px 2px 2px rgba(250, 250, 250) inset;
+        border-radius: 2px;
+        font-size: 18px;
+      }
+    }
   }
 }

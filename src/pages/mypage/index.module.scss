@@ -6,7 +6,6 @@
   border-radius: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
   box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.3);
 
   &::after {
@@ -25,7 +24,7 @@
 .area {
   width: 100%;
   height: 100%;
-  padding-top: 55px;
+  padding: 55px 0 120px;
   gap: 65px;
 
   display: flex;
@@ -49,11 +48,37 @@
   justify-content: center;
 }
 
+@keyframes sparkle {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 1);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  }
+}
+
 .pokeCard {
   @include cardStyle(90%, 90%);
+  justify-content: center;
   width: 90%;
   height: auto;
   aspect-ratio: 1; /* 카드의 가로와 세로 비율을 1:1로 설정 */
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+  &.defaultPokemon {
+    animation: sparkle 1s infinite; /* 반짝임 애니메이션 적용 */
+  }
 
   img {
     width: 60%;
@@ -65,13 +90,13 @@
 .recordWrapper {
   @include cardStyle(97%, 90%);
   min-width: 300px;
-  min-height: 100px;
   width: 90%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 22px;
   gap: 15px;
+  overflow: scroll;
 }
 
 .record {
@@ -97,8 +122,27 @@
     bottom: 0; /* 두꺼운 선의 위치 조정 */
     height: 4px; /* 두꺼운 선의 두께 */
   }
-
-  p {
-    @include pretendard-bold;
+}
+.noRecordMessage {
+  text-align: center;
+  color: #666;
+  font-size: 1.2em;
+  padding: 10px;
+}
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
   }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  width: 90%;
+  height: 90%;
+  background: linear-gradient(90deg, #ddd 0%, #c8c5c5 50%, #ddd 100%);
+  background-size: 200% 100%;
+  border-radius: 10px;
+  animation: shimmer 1.5s infinite;
 }

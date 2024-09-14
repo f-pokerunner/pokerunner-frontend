@@ -18,17 +18,16 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {
+        index: true,
+        element: <Intro />,
+      },
+      {
         element: <Default />, // Layout with Header and Footer
         children: [
-          { path: 'intro', element: <Intro /> },
           { path: 'home', element: <Home /> },
           { path: 'ranking-map', element: <RankingMap /> },
           { path: 'mypage', element: <Mypage /> },
         ],
-      },
-      {
-        element: <NonAuth />,
-        children: [{ path: 'login', element: <Login /> }],
       },
     ],
   },
