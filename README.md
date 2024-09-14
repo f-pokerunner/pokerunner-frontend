@@ -26,3 +26,7 @@ $ npm run build
 ```
 $ npm run lint:fix
 ```
+
+## 기능 시연
+
+<img width="342" alt="image" src="https://github.com/user-attachments/assets/a851fd09-fa3f-47bd-b415-72d349a536e5">
