@@ -13,6 +13,7 @@ import { ReactComponent as PokeBall } from '../../assets/icons/PokeBall.svg';
 import pokemon1 from '../../assets/gifs/이상해씨gif.gif';
 import map from '../../assets/icons/icon_map.png';
 import speechBalloon from '../../assets/icons/icon_speech_balloon.png';
+import revolution from '../../assets/icons/revolution.gif';
 import InfoCard from '../../components/InfoCard/index.jsx';
 import styles from './index.module.scss';
 import { useExperience } from '../../context/ExperienceContext.js';
@@ -20,20 +21,21 @@ import { getUserHomeData } from '../../api/apiClient.js';
 
 const cx = classNames.bind(styles);
 
-export default function Home({ test }) {
+export default function Home() {
+  const homeEl = useRef();
   const commentEl = useRef();
   const [isRunning, setIsRunning] = useState(false);
   const [userInfo, setUserInfo] = useState({
     level: 1,
-    experience: 289,
-    notRunningDays: 358,
-    userNickname: 'heesu',
-    pokemonName: '꼬부기',
-    imageUrl: pokemon1,
+    experience: 0,
+    userNickname: '',
+    pokemonName: '',
+    imageUrl: '',
   });
   const userId = getUserID();
   const [comment, setComment] = useState('');
   const [showCommentModal, setShowCommentModal] = useState(false);
+  const [animationOn, setAnimationOn] = useState(false);
 
   const setCurrentPosition = async (position) => {
     const {
@@ -49,7 +51,7 @@ export default function Home({ test }) {
     }
   };
 
-  const { checkExperience } = useExperience();
+  const { checkExperience, showPopup } = useExperience();
 
   const handleAddExperience = (newExperience) => {
     checkExperience(newExperience);
@@ -67,7 +69,7 @@ export default function Home({ test }) {
             console.error('Error getting location:', error);
           },
           {
-            enableHighAccuracy: true, // 정확도 높은 위치 정보 요청
+            // enableHighAccuracy: true, // 정확도 높은 위치 정보 요청
             timeout: 15000,
             maximumAge: 0,
           },
@@ -79,14 +81,49 @@ export default function Home({ test }) {
       // 러닝 종료
       try {
         const response = await postRunningEnd(userId);
-        if (response && response.experience) {
-          handleAddExperience(response.experience);
+        if (response) {
+          const { pokemonInfo, runningInfo } = response;
+          const { level, experience, userNickname, pokemonName, imageUrl } =
+            userInfo;
+
+          if (level < pokemonInfo.level) {
+            setAnimationOn(true);
+          }
+
+          setUserInfo({
+            ...userInfo,
+            level: pokemonInfo.level,
+            experience: pokemonInfo.currentExp,
+            pokemonName: pokemonInfo.pokemonName,
+            imageUrl: pokemonInfo.imageUrl,
+            notRunningDays: 0,
+          });
+
+          handleAddExperience(pokemonInfo.currentExp - experience);
         }
       } catch (error) {
         console.error('Error ending run:', error);
       }
     }
   };
+
+  // const dd = {
+  //   pokemonInfo: {
+  //     userId: 81,
+  //     currentExp: 20,
+  //     evolutionStatus: 3,
+  //     level: 2,
+  //     pokemonName: '루기아',
+  //     imageUrl:
+  //       'https://kr1-api-object-storage.nhncloudservice.com/v1/AUTH_5d9b15db2dc0418296ce71a647d8853d/pokestorage/pokemon/lugia.gif',
+  //   },
+  //   runningInfo: {
+  //     totalDistance: 1200.0,
+  //     pace: '0\'09"/km',
+  //     averageSpeed: 367.0348343245539,
+  //     duration: 11770,
+  //   },
+  // };
 
   const changeComment = (e) => {
     const value = e.target.value;
@@ -140,15 +177,29 @@ export default function Home({ test }) {
     fetchUserHomeData();
   }, [deviceId]);
 
+  useEffect(() => {
+    if (!showPopup && animationOn) {
+      const el = homeEl.current;
+
+      el.classList.add(cx('revol'));
+
+      setTimeout(() => {
+        el.classList.remove(cx('revol'));
+      }, 1500);
+
+      setAnimationOn(false);
+    }
+  }, [showPopup, animationOn]);
+
   return (
     <>
+      <img className={cx('revolution', 'none')} ref={homeEl} src={revolution} />
       <div className={cx('homeContainer')}>
-        <button onClick={handleAddExperience}>경험치 추가</button>
         {/* 상단 안내 문구 */}
         <div className={cx('iconWrapper')}>
-          <div className={cx('icon')}>
+          {/* <div className={cx('icon')}>
             <img src={map} alt="지도아이콘" />
-          </div>
+          </div> */}
           <div className={cx('icon')} onClick={clickCommentIcon}>
             <img src={speechBalloon} alt="말풍선아이콘" />
           </div>
@@ -157,7 +208,7 @@ export default function Home({ test }) {
           {/* 말풍선 */}
           <div className={cx('speechBubbleWrapper')}>
             <div className={cx('speechBubble')}>
-              {isRunning ? '달리는중...' : '예시문구 입니다.'}
+              {isRunning ? '달리는중...' : '나와 함께 뛰면 넌 더 빨라질 거야!'}
             </div>
           </div>
 
@@ -183,10 +234,10 @@ export default function Home({ test }) {
               </div>
               <div className={cx('progressWrapper')}>
                 <span>exp</span>
-                <ProgressBar currentExp={userInfo.experience} maxExp={100} />
+                <ProgressBar currentExp={userInfo.experience} maxExp={300} />
               </div>
               <span className={cx('currentExp')}>
-                {userInfo.experience}/100
+                {userInfo.experience}/300
               </span>
             </div>
             <div className={cx('statusWrapper')}>
@@ -196,12 +247,10 @@ export default function Home({ test }) {
               >
                 <PokeBall style={{ zIndex: '2' }} />
                 <span className={cx('statusText')}>
-                  {isRunning ? '러닝 종료' : '러닝 시작'}
+                  {isRunning ? '러닝종료' : '러닝시작'}
                 </span>
               </button>
-              <div className={cx('run')}>
-                <span>7.5Km/h</span>
-              </div>
+              <div className={cx('run')}>{/* <span>7.5Km/h</span> */}</div>
             </div>
           </div>
         </InfoCard>

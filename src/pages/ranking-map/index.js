@@ -142,12 +142,12 @@ export default function RankingMap() {
             </div>
 
             {/* 말풍선 */}
-            {rankerInfoList?.map((ranker) => {
+            {rankerInfoList?.map((ranker, index) => {
               const comment = ranker?.ranking === 1 && ranker?.comment;
 
               return (
                 comment && (
-                  <div className={cx('speechBubbleWrapper')}>
+                  <div className={cx('speechBubbleWrapper')} key={index}>
                     <div className={cx('speechBubble')}>{comment}</div>
                   </div>
                 )

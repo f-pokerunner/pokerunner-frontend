@@ -124,7 +124,7 @@ export const postRunningStart = async (userId, lat, lon) => {
 
 /** 홈화면 > 러닝 종료 */
 export const postRunningEnd = async (userId) => {
-  await runningEnd(userId);
+  return await runningEnd(userId);
 };
 
 /** 지도 화면 > 각 지역(구) 1순위 리스트 불러오기 */

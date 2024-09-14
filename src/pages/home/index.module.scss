@@ -1,5 +1,33 @@
 @use '../../assets/styles/base/mixins' as *;
 
+@keyframes fadeout {
+  /* 효과를 동작시간 동안 0 ~ 1까지 */
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.revolution {
+  &.none {
+    display: none;
+  }
+
+  &.revol {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    object-fit: cover;
+    z-index: 13;
+    animation: fadeout 3s;
+  }
+}
+
 .homeContainer {
   width: 100%;
   height: 100%;
