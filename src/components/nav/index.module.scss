@@ -1,6 +1,12 @@
 .wrapper {
   display: flex;
   justify-content: space-between;
+<<<<<<< HEAD
+  margin-top: 10;
+  margin-bottom: 28px;
+  padding: 0 2.375em;
+  width: 375px;
+=======
   padding: 0 2.375em;
 
   position: fixed;
@@ -9,6 +15,7 @@
   max-width: 600px;
   min-width: 320px;
   width: 100%;
+>>>>>>> develop
 }
 
 .item {
@@ -23,7 +30,11 @@
   &.selected {
     .shadow {
       background-color: #c4c4c4;
+<<<<<<< HEAD
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+=======
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+>>>>>>> develop
       transition: all 0.3s ease-out;
       opacity: 0.6;
     }

@@ -40,3 +40,38 @@
   padding: 1em;
   box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.5);
 }
+
+.area {
+  position: relative;
+}
+
+.titleBox {
+  position: absolute;
+  z-index: 2;
+
+  background-color: #b13500;
+  border-radius: 3px 3px 0 0;
+  border: 3px solid #dad7d7;
+  border-bottom: none;
+  width: fit-content;
+  padding: 0.6em 2em 0.1em 2em;
+
+  .title {
+    color: #dfefd9;
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-shadow: 1.7px 1.7px 0 rgba(0, 0, 0, 0.8);
+  }
+}
+
+.infoBox {
+  position: absolute;
+  top: 30.5px;
+  background-color: #b13500;
+  min-width: 200px;
+  min-height: 100px;
+  border: 3px solid #dad7d7;
+  padding: 1em;
+
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.5);
+}
